@@ -1,11 +1,12 @@
 
-all: snmd-widgets-nagios.min.js
+all: dist/snmd-widgets-nagios.min.js
 
-snmd-widgets-nagios.min.js: js/*.js
+dist/snmd-widgets-nagios.min.js: src/*.js
 	uglifyjs \
-	    -o $@ \
-	    -c \
-	    -m \
+	    --output $@ \
+	    --source-map dist/snmd-widgets-nagios.min.map \
+	    --compress \
+	    --mangle \
 	    --lint \
 	    --stats \
 	    -- $+
