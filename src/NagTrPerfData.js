@@ -38,10 +38,10 @@ License:
         };
         
         this.desc = desc;
-        if (typeof this.desc.axis === "undefined") {
-            this.opts.axis = '';
+        if (typeof this.desc.transform === "undefined") {
+            this.opts.transform = 'scale(%)';
         } else {
-            this.opts.axis = this.desc.axis;
+            this.opts.transform = this.desc.transform;
         }
 
         if (typeof desc.keys === "undefined") {
