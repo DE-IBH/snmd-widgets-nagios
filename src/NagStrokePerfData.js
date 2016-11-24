@@ -34,7 +34,7 @@ License:
     var NagStrokePerfData = function (root, svg, desc) {
         this.opts = {
             desc: desc,
-            cls: Scotty.SVGWidget.srClassOpts(desc, "Transform")
+            cls: Scotty.SVGWidget.srClassOpts(desc, "StrokeWidth")
         };
         
         this.desc = desc;
