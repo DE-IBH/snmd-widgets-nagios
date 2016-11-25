@@ -4,10 +4,10 @@ src/NagStrokePerfData.js
 src/NagGaugePerfData.js
 src/NagiosIfPr.js
 src/NagTxtPerfData.js
+src/NagClsState.js
 src/NagiosIfBw.js
 src/NagiosCpuUtil.js
 src/NagTxtState.js
-src/NagClsState.js
 src/NagGraphDiskTp.js
 src/NagFcBwChart.js
 src/NagCrtUpsLoad.js

@@ -80,6 +80,13 @@ License:
             this.opts.scale = "linear";
         }
 
+        this.opts.abs = false;
+        if (typeof desc.abs !== "undefined") {
+            if(desc.abs) {
+                this.opts.abs = true;
+            }
+        }
+
         this.last = {};
         this.factors = {};
         for (var i = 0; i < desc.topics.length; i++) {
