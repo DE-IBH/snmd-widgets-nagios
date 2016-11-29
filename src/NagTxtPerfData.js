@@ -67,8 +67,6 @@ License:
 
         if (typeof desc.fracts !== "undefined") {
             this.opts.fracts = desc.fracts;
-        } else {
-            this.opts.fracts = 1;
         }
 
         this.last = {};
