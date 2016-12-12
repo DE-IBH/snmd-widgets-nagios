@@ -12,3 +12,4 @@ src/NagGraphDiskTp.js
 src/NagFcBwChart.js
 src/NagCrtUpsLoad.js
 src/NagTrPerfData.js
+lib/algebra.js/algebra.js
