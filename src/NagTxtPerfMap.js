@@ -25,16 +25,22 @@ License:
 */
 
 /*jslint
-    devel: true
+    devel: true,
+    plusplus: true,
+    vars: true
 */
 
-(function ($) {
-    "use strict";
-    
+/*global
+    define
+*/
+
+define(["snmd-core/SVGWidget"], function (SVGWidget) {
+    'use strict';
+
     var NagTxtPerfMap = function (root, svg, desc) {
         this.opts = {
             desc: desc,
-            cls: Scotty.SVGWidget.srClassOpts(desc, "Text")
+            cls: SVGWidget.srClassOpts(desc, "Text")
         };
 
         this.desc = desc;
@@ -51,15 +57,15 @@ License:
             throw "NagTextPerfMap supports a single topic, only!";
         }
 
-        this.chart = new (Scotty.SVGWidget.srLookupImpl("Text"))(root, svg, this.opts);
+        this.chart = new (SVGWidget.srLookupImpl("Text"))(root, svg, this.opts);
     };
     
     NagTxtPerfMap.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
-        } catch (err) {
-            console.error('JSON error in performance data: ' + err.message);
+        } catch (err_parse) {
+            console.error('JSON error in performance data: ' + err_parse.message);
             return;
         }
 
@@ -75,13 +81,15 @@ License:
                 }
             }
             this.chart.update(val, json.state, false);
-        } catch (err) {
-            console.err("Error to process performance data [" + topic + "]: " + err.message);
+        } catch (err_perf) {
+            console.err("Error to process performance data [" + topic + "]: " + err_perf.message);
         }
     };
 
-    Scotty.SVGWidget.srRegisterWidget(
+    SVGWidget.srRegisterWidget(
         "NagTxtPerfMap",
         NagTxtPerfMap
     );
-}).call(this, jQuery);
+
+    return NagTxtPerfMap;
+});

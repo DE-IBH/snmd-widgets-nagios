@@ -25,11 +25,17 @@ License:
 */
 
 /*jslint
-    devel: true
+    devel: true,
+    plusplus: true,
+    vars: true
 */
 
-(function ($) {
-    "use strict";
+/*global
+    define
+*/
+
+define(["snmd-core/SVGWidget"], function (SVGWidget) {
+    'use strict';
     
     var NagFcBwChart = function (root, svg, desc) {
         this.opts = {
@@ -41,7 +47,7 @@ License:
             ],
             desc: desc,
             dpi: 60 / 5 / 60,
-            cls: Scotty.SVGWidget.srClassOpts(desc, "Chart"),               /* rect classes    */
+            cls: SVGWidget.srClassOpts(desc, "Chart"),               /* rect classes    */
             lcls: ['snmd-lcl-Nag', 'snmd-lcl-NagFc', 'snmd-lcl-NagFcBw'],   /* line classes    */
             mcls: ['snmd-mcl-Nag', 'snmd-mcl-NagFc', 'snmd-mcl-NagFcBw'],   /* maxline classes */
             tcls: ['snmd-tcl-Nag', 'snmd-tcl-NagFc', 'snmd-tcl-NagFcBw']    /* text classes    */
@@ -49,7 +55,8 @@ License:
 
         // get max scaling
         var max = 0;
-        for (var t = 0; t < desc.topics.length; t++) {
+        var t;
+        for (t = 0; t < desc.topics.length; t++) {
             max +=   this.opts.axis[0].max;
         }
         this.opts.axis[0].max = max;
@@ -75,44 +82,47 @@ License:
         
         this.desc = desc;
         this.last = {};
-        for (var t = 0; t < desc.topics.length; t++) {
+        for (t = 0; t < desc.topics.length; t++) {
             this.last[desc.topics[t]] = [];
-            for(var i = 0; i < this.lines.length; i++) {
+            var i;
+            for (i = 0; i < this.lines.length; i++) {
                 this.last[desc.topics[t]][i] = {};
             }
         }
 
-        this.chart = new (Scotty.SVGWidget.srLookupImpl("Chart"))(root, svg, this.opts, this.lines);
+        this.chart = new (SVGWidget.srLookupImpl("Chart"))(root, svg, this.opts, this.lines);
     };
     
     NagFcBwChart.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
-        } catch (err) {
-            console.error('JSON error in performance data: ' + err.message);
+        } catch (err_parse) {
+            console.error('JSON error in performance data: ' + err_parse.message);
             return;
         }
-        
-        for (var i = 0; i < this.lines.length; i++) {
+
+        var i;
+        for (i = 0; i < this.lines.length; i++) {
             this.last[topic][i].val = 0;
             this.last[topic][i].state = 0;
             try {
                 this.last[topic][i].val = json.perf_data[this.lines[i].name].val;
                 this.last[topic][i].state = json.state;
-            } catch (err) {
-                console.warn("Error to process performance data of " + line + ": " + err.message);
+            } catch (err_last) {
+                console.warn("Error to process performance data of [" +  topic + "].line[" + i + "]: " + err_last.message);
             }
         }
         
         var vals = [];
         var state = 0;
-        for (var i = 0; i < this.lines.length; i++) {
+        for (i = 0; i < this.lines.length; i++) {
             vals[i] = 0;
 
-            for(var t in this.last) {
+            var t;
+            for (t in this.last) {
                 var v = parseFloat(this.last[t][i].val);
-                if(isNaN(v)) {
+                if (isNaN(v)) {
                     v = 0;
                 }
                 vals[i] += v;
@@ -123,8 +133,10 @@ License:
         this.chart.update(json._timestamp, vals, state);
     };
 
-    Scotty.SVGWidget.srRegisterWidget(
+    SVGWidget.srRegisterWidget(
         "NagFcBwChart",
         NagFcBwChart
     );
-}).call(this, jQuery);
+
+    return NagFcBwChart;
+});

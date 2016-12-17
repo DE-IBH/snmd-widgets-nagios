@@ -25,57 +25,68 @@ License:
 */
 
 /*jslint
-    devel: true
+    devel: true,
+    plusplus: true,
+    vars: true
 */
 
-(function ($) {
-    "use strict";
-    
+/*global
+    define
+*/
+
+define(["snmd-core/SVGWidget"], function (SVGWidget) {
+    'use strict';
+
     var NagClsState = function (root, svg, desc) {
+        var i;
+
         this.opts = {
-            cls: Scotty.SVGWidget.srClassOpts(desc, "Class")
+            cls: SVGWidget.srClassOpts(desc, "Class")
         };
         
         this.last = {};
-        for (var i = 0; i < desc.topics.length; i++) {
+        for (i = 0; i < desc.topics.length; i += 1) {
             this.last[desc.topics[i]] = [3];
         }
 
         if (typeof desc.clrsty !== "undefined") {
-            for (var i = 0; i < desc.clrsty.length; i++) {
+            for (i = 0; i < desc.clrsty.length; i += 1) {
                 svg.style[desc.clrsty[i]] = '';
             }
         }
 
-        this.el = new (Scotty.SVGWidget.srLookupImpl("Class"))(root, svg, this.opts);
+        this.el = new (SVGWidget.srLookupImpl("Class"))(root, svg, this.opts);
     };
-    
+
     NagClsState.prototype.handleUpdate = function (topic, msg) {
-        var json;
+        var json,
+            state = 0;
+
         try {
             json = JSON.parse(msg);
-        } catch (err) {
-            console.error('JSON error in performance data: ' + err.message);
+        } catch (err_parse) {
+            console.error('JSON error in performance data: ' + err_parse.message);
             return;
         }
         
         this.last[topic] = undefined;
         try {
             this.last[topic] = json.state;
-        } catch (err) {
-            console.err("Error to process state data [" + topic + "]: " + err.message);
+        } catch (err_last) {
+            console.err("Error to process state data [" + topic + "]: " + err_last.message);
         }
         
-        var state = 0;
-        for(var t in this.last) {
-            state = Math.max(state, this.last[t]);
-        }
+        this.last.forEach(function (l) {
+            state = Math.max(state, l);
+        });
         
         this.el.update(state);
     };
 
-    Scotty.SVGWidget.srRegisterWidget(
+    SVGWidget.srRegisterWidget(
         "NagClsState",
         NagClsState
     );
-}).call(this, jQuery);
+
+    return NagClsState;
+});

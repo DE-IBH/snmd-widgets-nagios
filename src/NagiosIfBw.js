@@ -25,12 +25,18 @@ License:
 */
 
 /*jslint
-    devel: true
+    devel: true,
+    plusplus: true,
+    vars: true
 */
 
-(function ($) {
-    "use strict";
-    
+/*global
+    define
+*/
+
+define(["snmd-core/SVGWidget"], function (SVGWidget) {
+    'use strict';
+
     var NagiosIfBw = function (root, svg, desc) {
         this.opts = {
 /*            dim: {
@@ -48,7 +54,7 @@ License:
             ],
             desc: desc,
             dpi: 60 / 5 / 60,
-            cls: Scotty.SVGWidget.srClassOpts(desc, "Chart"),               /* rect classes    */
+            cls: SVGWidget.srClassOpts(desc, "Chart"),               /* rect classes    */
             lcls: ['snmd-lcl-Nag', 'snmd-lcl-NagIf', 'snmd-lcl-NagIfBw'],     /* line classes    */
             mcls: ['snmd-mcl-Nag', 'snmd-mcl-NagIf', 'snmd-mcl-NagIfBw'],     /* maxline classes */
             tcls: ['snmd-tcl-Nag', 'snmd-tcl-NagIf', 'snmd-tcl-NagIfBw']      /* text classes    */
@@ -56,43 +62,44 @@ License:
 
         // get max scaling
         var max = 0;
-        for (var t = 0; t < desc.topics.length; t++) {
+        var m;
+        var t;
+        for (t = 0; t < desc.topics.length; t++) {
             var results = new RegExp('Interface (.*Ethernet|POS)').exec(desc.topics[t]);
             if (results && results[1]) {
                 switch (results[1]) {
-                    case "TenGigabitEthernet":
-                        var m =  2000 * 1000000;
-                        max = (m > max ? m : max);
-                        break;
-                    case "GigabitEthernet":
-                        var m =  200 * 1000000;
-                        max = (m > max ? m : max);
-                        break;
-                    case "POS":
-                        var m =   31 * 1000000;
-                        max = (m > max ? m : max);
-                        break;
-                    case "FastEthernet":
-                        var m =   20 * 1000000;
-                        max = (m > max ? m : max);
-                        break;
-                    case "Ethernet":
-                        var m =    2 * 1000000;
-                        max = (m > max ? m : max);
-                        break;
-                    default:
-                        var m =  this.opts.axis[0].max;
-                        max = (m > max ? m : max);
-                        break;
+                case "TenGigabitEthernet":
+                    m =  2000 * 1000000;
+                    max = (m > max ? m : max);
+                    break;
+                case "GigabitEthernet":
+                    m =  200 * 1000000;
+                    max = (m > max ? m : max);
+                    break;
+                case "POS":
+                    m =   31 * 1000000;
+                    max = (m > max ? m : max);
+                    break;
+                case "FastEthernet":
+                    m =   20 * 1000000;
+                    max = (m > max ? m : max);
+                    break;
+                case "Ethernet":
+                    m =    2 * 1000000;
+                    max = (m > max ? m : max);
+                    break;
+                default:
+                    m =  this.opts.axis[0].max;
+                    max = (m > max ? m : max);
+                    break;
                 }
-            }
-            else {
+            } else {
                 max +=   this.opts.axis[0].max;
             }
         }
         this.opts.axis[0].max = max;
         if (typeof desc.max !== "undefined") {
-            var m = parseFloat(desc.max);
+            m = parseFloat(desc.max);
             if (!isNaN(m)) {
                 this.opts.axis[0].max = m;
             }
@@ -102,25 +109,26 @@ License:
             {
                 name: 'in',
                 axis: 0,
-                unit: 'b',
+                unit: 'b'
             },
             {
                 name: 'out',
                 axis: 0,
-                unit: 'b',
+                unit: 'b'
             }
         ];
 
         this.desc = desc;
         this.last = {};
-        for (var t = 0; t < desc.topics.length; t++) {
+        for (t = 0; t < desc.topics.length; t++) {
             this.last[desc.topics[t]] = [];
-            for(var i = 0; i < this.lines.length; i++) {
+            var i;
+            for (i = 0; i < this.lines.length; i++) {
                 this.last[desc.topics[t]][i] = {};
             }
         }
 
-        this.chart = new (Scotty.SVGWidget.srLookupImpl("Chart"))(root, svg, this.opts, this.lines);
+        this.chart = new (SVGWidget.srLookupImpl("Chart"))(root, svg, this.opts, this.lines);
     };
     
     NagiosIfBw.prototype.handleUpdate = function (topic, msg) {
@@ -131,29 +139,31 @@ License:
             console.error('JSON error in performance data: ' + err.message);
             return;
         }
-        
-        for (var i = 0; i < this.lines.length; i++) {
+
+        var i;
+        for (i = 0; i < this.lines.length; i++) {
             this.last[topic][i].val = 0;
             this.last[topic][i].state = 0;
             try {
                 this.last[topic][i].val = json.perf_data[this.lines[i].name].val * 8;
-            } catch (err) {
+            } catch (err_perf) {
             }
             try {
                 this.last[topic][i].state = json.state;
-            } catch (err) {
-                console.warn("Error to process state data: " + err.message);
+            } catch (err_state) {
+                console.warn("Error to process state data: " + err_state.message);
             }
         }
         
         var vals = [];
         var state = 0;
-        for (var i = 0; i < this.lines.length; i++) {
+        for (i = 0; i < this.lines.length; i++) {
             vals[i] = 0;
 
-            for(var t in this.last) {
+            var t;
+            for (t in this.last) {
                 var v = parseFloat(this.last[t][i].val);
-                if(isNaN(v)) {
+                if (isNaN(v)) {
                     v = 0;
                 }
                 vals[i] += v;
@@ -164,8 +174,10 @@ License:
         this.chart.update(json._timestamp, vals, state);
     };
 
-    Scotty.SVGWidget.srRegisterWidget(
+    SVGWidget.srRegisterWidget(
         "NagiosIfBw",
         NagiosIfBw
     );
-}).call(this, jQuery);
+
+    return NagiosIfBw;
+});

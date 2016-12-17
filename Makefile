@@ -1,18 +1,26 @@
 
-LIBS:=lib/algebra.js/algebra.js
+DISTS:= \
+	dist/NagClsState.min.js \
+	dist/NagCrtUpsLoad.min.js \
+	dist/NagFcBwChart.min.js \
+	dist/NagGaugePerfData.min.js \
+	dist/NagGraphDiskTp.min.js \
+	dist/NagGrdPerfData.min.js \
+	dist/NagiosCpuUtil.min.js \
+	dist/NagiosIfBw.min.js \
+	dist/NagiosIfPr.min.js \
+	dist/NagStrokePerfData.min.js \
+	dist/NagTrPerfData.min.js \
+	dist/NagTxtPerfData.min.js \
+	dist/NagTxtPerfMap.min.js \
+	dist/NagTxtState.min.js
 
-all: dist/snmd-widgets-nagios.min.js
-	@for lib in $+; do \
-	    echo $$lib; \
-	done > js.min.inc
+all: $(DISTS)
 
-dist/snmd-widgets-nagios.min.js: src/*.js $(LIBS)
-	@for lib in $+; do \
-	    echo $$lib; \
-	done > js.dev.inc
+dist/%.min.js: src/%.js
 	uglifyjs \
 	    --output $@ \
-	    --source-map dist/snmd-widgets-nagios.min.map \
+	    --source-map $(subst .min.js,.min.map,$@) \
 	    --compress \
 	    --mangle \
 	    --lint \
@@ -20,4 +28,4 @@ dist/snmd-widgets-nagios.min.js: src/*.js $(LIBS)
 	    -- $+
 
 clean:
-	rm -f js.min.inc js.dev.inc dist/snmd-widgets-nagios.min.js dist/snmd-widgets-nagios.min.map
+	rm -f $(DISTS)

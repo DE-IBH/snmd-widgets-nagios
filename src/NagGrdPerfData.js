@@ -25,15 +25,21 @@ License:
 */
 
 /*jslint
-    devel: true
+    devel: true,
+    plusplus: true,
+    vars: true
 */
 
-(function ($) {
-    "use strict";
-    
+/*global
+    define
+*/
+
+define(["snmd-core/SVGWidget", "snmd-core/MQTT"], function (SVGWidget, MQTT) {
+    'use strict';
+
     var NagGrdPerfData = function (root, svg, desc) {
         this.opts = {
-            cls: Scotty.SVGWidget.srClassOpts(desc, "Gradient"),
+            cls: SVGWidget.srClassOpts(desc, "Gradient"),
             range: desc.range,
             hoffset: desc.hoffset,
             hscale: desc.hscale,
@@ -50,16 +56,18 @@ License:
         this.states = {};
         this.tmap = {};
 
-        for (var stop in desc.stops) {
+        var stop;
+        for (stop in desc.stops) {
             this.last[stop] = {};
-            for(var t = 0; t < desc.stops[stop].length; t++) {
+            var t;
+            for (t = 0; t < desc.stops[stop].length; t++) {
                 var topic = desc.stops[stop][t];
 
                 if (typeof this.tmap[topic] === "undefined") {
                     this.tmap[topic] = [];
                 }
 
-                if (this.tmap[topic].indexOf(stop) == -1) {
+                if (this.tmap[topic].indexOf(stop) === -1) {
                     this.tmap[topic].push(stop);
                 }
 
@@ -68,12 +76,12 @@ License:
         }
         this.opts.stops = Object.keys(this.last);
 
-        this.grad = new (Scotty.SVGWidget.srLookupImpl("Gradient"))(root, svg, this.opts);
+        this.grad = new (SVGWidget.srLookupImpl("Gradient"))(root, svg, this.opts);
 
         /* subscribe to topics */
-        for (var topic in this.tmap) {
-            Scotty.MQTT.srRegisterTopic(topic, this);
-        };
+        this.tmap.forEach(function (topic) {
+            MQTT.srRegisterTopic(topic, this);
+        }, this);
     };
     
     NagGrdPerfData.prototype.handleUpdate = function (topic, msg) {
@@ -86,8 +94,9 @@ License:
         }
 
         /* set last value of current topic to zero */
-        for (var i = 0; i < this.tmap[topic].length; i++) {
-            this.last[ this.tmap[topic][i] ][topic] = val;
+        var i;
+        for (i = 0; i < this.tmap[topic].length; i++) {
+            this.last[this.tmap[topic][i]][topic] = undefined;
         }
 
         /* extract current value */
@@ -96,36 +105,37 @@ License:
         try {
             this.states[topic] = json.state;
 
-            for(var i in this.opts.keys) {
-                if(typeof json.perf_data[ this.opts.keys[i] ] !== "undefined") {
-                    val = parseFloat(json.perf_data[ this.opts.keys[i] ].val);
+            for (i in this.opts.keys) {
+                if (typeof json.perf_data[this.opts.keys[i]] !== "undefined") {
+                    val = parseFloat(json.perf_data[this.opts.keys[i]].val);
                     break;
                 }
             }
 
-            for (var i = 0; i < this.tmap[topic].length; i++) {
-                if ( this.last[ this.tmap[topic][i] ][topic] !== val ) {
-                    this.last[ this.tmap[topic][i] ][topic] = val;
+            for (i = 0; i < this.tmap[topic].length; i++) {
+                if (this.last[this.tmap[topic][i]][topic] !== val) {
+                    this.last[this.tmap[topic][i]][topic] = val;
                     changed = true;
                 }
             }
-        } catch (err) {
-            console.error("Error to process performance data [" + topic + "]: " + err.message);
+        } catch (err_perf) {
+            console.error("Error to process performance data [" + topic + "]: " + err_perf.message);
         }
 
-        if(changed === false) {
+        if (changed === false) {
             return;
         }
         
         var state = 0;
         var stops = [];
-        for(var stop in this.last) {
-            var val = 0;
+        var stop;
+        for (stop in this.last) {
+            val = 0;
             var ok = true;
 
-            for(var topic in this.last[stop]) {
+            for (var topic in this.last[stop]) {
                 var v = parseFloat(this.last[stop][topic]);
-                if(isNaN(v)) {
+                if (isNaN(v)) {
                     v = 0;
                     ok = false;
                 }
@@ -150,8 +160,10 @@ License:
         this.grad.update(stops, state);
     };
 
-    Scotty.SVGWidget.srRegisterWidget(
+    SVGWidget.srRegisterWidget(
         "NagGrdPerfData",
         NagGrdPerfData
     );
-}).call(this, jQuery);
+
+    return NagGrdPerfData;
+});

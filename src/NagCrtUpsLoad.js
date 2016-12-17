@@ -25,13 +25,21 @@ License:
 */
 
 /*jslint
-    devel: true
+    devel: true,
+    plusplus: true,
+    vars: true
 */
 
-(function ($) {
-    "use strict";
-    
+/*global
+    define
+*/
+
+define(["snmd-core/SVGWidget"], function (SVGWidget) {
+    'use strict';
+
     var NagCrtUpsLoad = function (root, svg, desc) {
+        var i;
+
         this.opts = {
             axis: [
                 {
@@ -41,7 +49,7 @@ License:
             ],
             desc: desc,
             dpi: 60 / 5 / 60,
-            cls: Scotty.SVGWidget.srClassOpts(desc, "Chart")
+            cls: SVGWidget.srClassOpts(desc, "Chart")
         };
         this.lines = [
             {
@@ -60,37 +68,41 @@ License:
 
         this.desc = desc;
         this.last = {};
-        for (var i = 0; i < desc.topics.length; i++) {
+        for (i = 0; i < desc.topics.length; i += 1) {
             this.last[desc.topics[i]] = [0];
         }
 
-        this.chart = new (Scotty.SVGWidget.srLookupImpl("Chart"))(root, svg, this.opts, this.lines);
+        this.chart = new (SVGWidget.srLookupImpl("Chart"))(root, svg, this.opts, this.lines);
     };
     
     NagCrtUpsLoad.prototype.handleUpdate = function (topic, msg) {
-        var json;
+        var count,
+            i,
+            json,
+            vals = [];
+
         try {
             json = JSON.parse(msg);
-        } catch (err) {
-            console.error('JSON error in performance data: ' + err.message);
+        } catch (err_parse) {
+            console.error('JSON error in performance data: ' + err_parse.message);
             return;
         }
         
-        for (var i = 0; i < this.lines.length; i++) {
+        for (i = 0; i < this.lines.length; i += 1) {
             this.last[topic][i] = 0;
             try {
                 this.last[topic][i] = json.perf_data[this.lines[i].name].val;
-            } catch (err) {
-                console.warn("Error to process performance data of " + line + ": " + err.message);
+            } catch (err_last) {
+                console.warn("Error to process performance data of [" + topic + "].line[" + i + "]: " + err_last.message);
             }
         }
         
-        var vals = [];
-        for (var i = 0; i < this.lines.length; i++) {
+        for (i = 0; i < this.lines.length; i += 1) {
             vals[i] = 0;
 
-            var count = 0;
-            for(var t in this.last) {
+            count = 0;
+            var t;
+            for (t in this.last) {
                 vals[i] += parseFloat(this.last[t][i]);
                 count = count + 1;
             }
@@ -100,8 +112,10 @@ License:
         this.chart.update(json._timestamp, vals);
     };
 
-    Scotty.SVGWidget.srRegisterWidget(
+    SVGWidget.srRegisterWidget(
         "NagCrtUpsLoad",
         NagCrtUpsLoad
     );
-}).call(this, jQuery);
+
+    return NagCrtUpsLoad;
+});

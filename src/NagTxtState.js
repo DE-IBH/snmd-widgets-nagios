@@ -25,59 +25,69 @@ License:
 */
 
 /*jslint
-    devel: true
+    devel: true,
+    plusplus: true,
+    vars: true
 */
 
-(function ($) {
-    "use strict";
-    
+/*global
+    define
+*/
+
+define(["snmd-core/SVGWidget"], function (SVGWidget) {
+    'use strict';
+
     var NagTxtState = function (root, rsvg, desc) {
         this.opts = {
-            cls: Scotty.SVGWidget.srClassOpts(desc, "Class")
+            cls: SVGWidget.srClassOpts(desc, "Class")
         };
         
         this.last = {};
-        for (var i = 0; i < desc.topics.length; i++) {
+        var i;
+        for (i = 0; i < desc.topics.length; i++) {
             this.last[desc.topics[i]] = [3];
         }
 
         var svg = $(rsvg).children('tspan')[0];
         
         if (typeof desc.clrsty !== "undefined") {
-            for (var i = 0; i < desc.clrsty.length; i++) {
+            for (i = 0; i < desc.clrsty.length; i++) {
                 svg.style[desc.clrsty[i]] = '';
             }
         }
 
-        this.el = new (Scotty.SVGWidget.srLookupImpl("Class"))(root, svg, this.opts);
+        this.el = new (SVGWidget.srLookupImpl("Class"))(root, svg, this.opts);
     };
     
     NagTxtState.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
-        } catch (err) {
-            console.error('JSON error in performance data: ' + err.message);
+        } catch (err_parse) {
+            console.error('JSON error in performance data: ' + err_parse.message);
             return;
         }
         
         this.last[topic] = undefined;
         try {
             this.last[topic] = json.state;
-        } catch (err) {
-            console.err("Error to process state data [" + topic + "]: " + err.message);
+        } catch (err_state) {
+            console.err("Error to process state data [" + topic + "]: " + err_state.message);
         }
         
         var state = 0;
-        for(var t in this.last) {
+        var t;
+        for (t in this.last) {
             state = Math.max(state, this.last[t]);
         }
         
         this.el.update(state);
     };
 
-    Scotty.SVGWidget.srRegisterWidget(
+    SVGWidget.srRegisterWidget(
         "NagTxtState",
         NagTxtState
     );
-}).call(this, jQuery);
+
+    return NagTxtState;
+});
