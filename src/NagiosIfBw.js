@@ -34,7 +34,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget"], function (SVGWidget) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, SVGImplChart) {
     'use strict';
 
     var NagiosIfBw = function (root, svg, desc) {
@@ -119,16 +119,16 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
         ];
 
         this.desc = desc;
-        this.last = {};
+        this.last = [];
         for (t = 0; t < desc.topics.length; t++) {
             this.last[desc.topics[t]] = [];
             var i;
             for (i = 0; i < this.lines.length; i++) {
-                this.last[desc.topics[t]][i] = {};
+                this.last[desc.topics[t]][i] = [];
             }
         }
 
-        this.chart = new (SVGWidget.srLookupImpl("Chart"))(root, svg, this.opts, this.lines);
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines);
     };
     
     NagiosIfBw.prototype.handleUpdate = function (topic, msg) {
@@ -173,11 +173,6 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
         
         this.chart.update(json._timestamp, vals, state);
     };
-
-    SVGWidget.srRegisterWidget(
-        "NagiosIfBw",
-        NagiosIfBw
-    );
 
     return NagiosIfBw;
 });

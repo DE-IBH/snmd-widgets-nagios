@@ -34,7 +34,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget"], function (SVGWidget) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, SVGImplChart) {
     'use strict';
 
     var NagiosCpuUtil = function (root, svg, desc) {
@@ -66,13 +66,13 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
         ];
         
         this.desc = desc;
-        this.last = {};
+        this.last = [];
         var i;
         for (i = 0; i < desc.topics.length; i++) {
             this.last[desc.topics[i]] = [0, 0];
         }
 
-        this.chart = new (SVGWidget.srLookupImpl("Chart"))(root, svg, this.opts, this.lines);
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines);
     };
     
     NagiosCpuUtil.prototype.handleUpdate = function (topic, msg) {
@@ -90,7 +90,7 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
             try {
                 this.last[topic][i] = json.perf_data[this.lines[i].name].val;
             } catch (err_perf) {
-                console.warn("Error to process performance data of " + line + ": " + err_perf.message);
+                console.warn("Error to process performance data of " + topic + "[" + i + "]: " + err_perf.message);
             }
         }
         
@@ -108,11 +108,6 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
         
         this.chart.update(json._timestamp, vals);
     };
-
-    SVGWidget.srRegisterWidget(
-        "NagiosCpuUtil",
-        NagiosCpuUtil
-    );
 
     return NagiosCpuUtil;
 });

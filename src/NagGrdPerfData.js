@@ -34,7 +34,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/MQTT"], function (SVGWidget, MQTT) {
+define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient"], function (SVGWidget, MQTT, SVGImplGradient) {
     'use strict';
 
     var NagGrdPerfData = function (root, svg, desc) {
@@ -52,9 +52,9 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT"], function (SVGWidget, MQTT) {
             this.opts.keys = desc.keys;
         }
 
-        this.last = {};
-        this.states = {};
-        this.tmap = {};
+        this.last = [];
+        this.states = [];
+        this.tmap = [];
 
         var stop;
         for (stop in desc.stops) {
@@ -76,7 +76,7 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT"], function (SVGWidget, MQTT) {
         }
         this.opts.stops = Object.keys(this.last);
 
-        this.grad = new (SVGWidget.srLookupImpl("Gradient"))(root, svg, this.opts);
+        this.grad = new SVGImplGradient(root, svg, this.opts);
 
         /* subscribe to topics */
         this.tmap.forEach(function (topic) {
@@ -133,7 +133,8 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT"], function (SVGWidget, MQTT) {
             val = 0;
             var ok = true;
 
-            for (var topic in this.last[stop]) {
+            var topic;
+            for (topic in this.last[stop]) {
                 var v = parseFloat(this.last[stop][topic]);
                 if (isNaN(v)) {
                     v = 0;
@@ -154,16 +155,11 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT"], function (SVGWidget, MQTT) {
                 val = this.opts.range[1];
             }
 
-            stops[stop] = (ok ? (  this.opts.hoffset + (val - this.opts.range[0]) * this.opts.hscale / (this.opts.range[1] - this.opts.range[0])  ) % 360 : undefined);
+            stops[stop] = (ok ? (this.opts.hoffset + (val - this.opts.range[0]) * this.opts.hscale / (this.opts.range[1] - this.opts.range[0])) % 360 : undefined);
         }
 
         this.grad.update(stops, state);
     };
-
-    SVGWidget.srRegisterWidget(
-        "NagGrdPerfData",
-        NagGrdPerfData
-    );
 
     return NagGrdPerfData;
 });

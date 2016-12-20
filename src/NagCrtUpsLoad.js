@@ -34,7 +34,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget"], function (SVGWidget) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, SVGImplChart) {
     'use strict';
 
     var NagCrtUpsLoad = function (root, svg, desc) {
@@ -67,12 +67,12 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
         ];
 
         this.desc = desc;
-        this.last = {};
+        this.last = [];
         for (i = 0; i < desc.topics.length; i += 1) {
             this.last[desc.topics[i]] = [0];
         }
 
-        this.chart = new (SVGWidget.srLookupImpl("Chart"))(root, svg, this.opts, this.lines);
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines);
     };
     
     NagCrtUpsLoad.prototype.handleUpdate = function (topic, msg) {
@@ -111,11 +111,6 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
         
         this.chart.update(json._timestamp, vals);
     };
-
-    SVGWidget.srRegisterWidget(
-        "NagCrtUpsLoad",
-        NagCrtUpsLoad
-    );
 
     return NagCrtUpsLoad;
 });

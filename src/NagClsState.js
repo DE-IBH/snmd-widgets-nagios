@@ -34,7 +34,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget"], function (SVGWidget) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Class"], function (SVGWidget, SVGImplClass) {
     'use strict';
 
     var NagClsState = function (root, svg, desc) {
@@ -44,7 +44,7 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
             cls: SVGWidget.srClassOpts(desc, "Class")
         };
         
-        this.last = {};
+        this.last = [];
         for (i = 0; i < desc.topics.length; i += 1) {
             this.last[desc.topics[i]] = [3];
         }
@@ -55,7 +55,7 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
             }
         }
 
-        this.el = new (SVGWidget.srLookupImpl("Class"))(root, svg, this.opts);
+        this.el = new SVGImplClass(root, svg, this.opts);
     };
 
     NagClsState.prototype.handleUpdate = function (topic, msg) {
@@ -82,11 +82,6 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
         
         this.el.update(state);
     };
-
-    SVGWidget.srRegisterWidget(
-        "NagClsState",
-        NagClsState
-    );
 
     return NagClsState;
 });

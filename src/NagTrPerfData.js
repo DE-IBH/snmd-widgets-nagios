@@ -34,7 +34,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget"], function (SVGWidget) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidget, SVGImplTransform) {
     'use strict';
 
     var NagTrPerfData = function (root, svg, desc) {
@@ -80,8 +80,8 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
             this.opts.max = 100;
         }
 
-        this.last = {};
-        this.factors = {};
+        this.last = [];
+        this.factors = [];
         var i;
         for (i = 0; i < desc.topics.length; i++) {
             this.last[desc.topics[i]] = [];
@@ -93,7 +93,7 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
             }
         }
 
-        this.chart = new (SVGWidget.srLookupImpl("Transform"))(root, svg, this.opts);
+        this.chart = new SVGImplTransform(root, svg, this.opts);
     };
     
     NagTrPerfData.prototype.handleUpdate = function (topic, msg) {
@@ -137,11 +137,6 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
         
         this.chart.update(val, state);
     };
-
-    SVGWidget.srRegisterWidget(
-        "NagTrPerfData",
-        NagTrPerfData
-    );
 
     return NagTrPerfData;
 });

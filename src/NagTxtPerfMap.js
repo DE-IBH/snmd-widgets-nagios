@@ -34,7 +34,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget"], function (SVGWidget) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, SVGImplText) {
     'use strict';
 
     var NagTxtPerfMap = function (root, svg, desc) {
@@ -50,14 +50,14 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
         if (typeof desc.map !== "undefined") {
             this.opts.map = desc.map;
         } else {
-            this.opts.map = {};
+            this.opts.map = [];
         }
 
         if (desc.topics.length !== 1) {
             throw "NagTextPerfMap supports a single topic, only!";
         }
 
-        this.chart = new (SVGWidget.srLookupImpl("Text"))(root, svg, this.opts);
+        this.chart = new SVGImplText(root, svg, this.opts);
     };
     
     NagTxtPerfMap.prototype.handleUpdate = function (topic, msg) {
@@ -85,11 +85,6 @@ define(["snmd-core/SVGWidget"], function (SVGWidget) {
             console.err("Error to process performance data [" + topic + "]: " + err_perf.message);
         }
     };
-
-    SVGWidget.srRegisterWidget(
-        "NagTxtPerfMap",
-        NagTxtPerfMap
-    );
 
     return NagTxtPerfMap;
 });
