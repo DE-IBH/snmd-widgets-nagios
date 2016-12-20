@@ -1,12 +1,13 @@
 /*
-scotty-rev - Scotty REVOLUTION Network Management Dashboard
+SNMD - Scotty Network Management Dashboard
+  https://github.com/DE-IBH/snmd-widgets-nagios/
 
 Authors:
   Thomas Liske <liske@ibh.de>
 
 Copyright Holder:
-  2012 - 2013 (C) Thomas Liske [https://fiasko-nw.net/~thomas/tag/scotty]
-  2014 - 2016 (C) IBH IT-Service GmbH [http://www.ibh.de/OSS/Scotty]
+  2012 - 2013 (C) Thomas Liske [https://fiasko-nw.net/~thomas/]
+  2014 - 2016 (C) IBH IT-Service GmbH [https://www.ibh.de/]
 
 License:
   This program is free software; you can redistribute it and/or modify
@@ -72,8 +73,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, S
         try {
             var val = '';
             if (typeof json.perf_data[this.opts.key] !== "undefined") {
-                val = json.perf_data[this.opts.key].val;
-                if (val in this.opts.map) {
+                if (json.perf_data[this.opts.key].val in this.opts.map) {
                     val = this.opts.map[val];
                 } else {
                     val = '?';
