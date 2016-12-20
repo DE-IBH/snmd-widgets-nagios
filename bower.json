@@ -11,7 +11,5 @@
   "ignore": [
     "**/.*"
   ],
-  "dependencies": {
-    "algebra.js": "^0.2.5"
-  }
+  "dependencies": {}
 }
