@@ -37,7 +37,7 @@ License:
 define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient"], function (SVGWidget, MQTT, SVGImplGradient) {
     'use strict';
 
-    var NagGrdPerfData = function (root, svg, desc) {
+    var GradientPerfData = function (root, svg, desc) {
         this.opts = {
             cls: SVGWidget.srClassOpts(desc, "Gradient"),
             range: desc.range,
@@ -84,7 +84,7 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient"], 
         }, this);
     };
     
-    NagGrdPerfData.prototype.handleUpdate = function (topic, msg) {
+    GradientPerfData.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
@@ -161,5 +161,5 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient"], 
         this.grad.update(stops, state);
     };
 
-    return NagGrdPerfData;
+    return GradientPerfData;
 });

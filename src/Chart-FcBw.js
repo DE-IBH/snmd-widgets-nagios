@@ -36,70 +36,32 @@ License:
 
 define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, SVGImplChart) {
     'use strict';
-
-    var NagiosIfBw = function (root, svg, desc) {
+    
+    var ChartFcBw = function (root, svg, desc) {
         this.opts = {
-/*            dim: {
-                x: dim.x,
-                y: dim.y,
-                w: dim.width,
-                h: dim.height
-            },
-            id: dim.id,*/
             axis: [
                 {
-                    max: 200 * 1000000,
+                    max: 100 * 1000000,
                     scale: 'linear'
                 }
             ],
             desc: desc,
             dpi: 60 / 5 / 60,
             cls: SVGWidget.srClassOpts(desc, "Chart"),               /* rect classes    */
-            lcls: ['snmd-lcl-Nag', 'snmd-lcl-NagIf', 'snmd-lcl-NagIfBw'],     /* line classes    */
-            mcls: ['snmd-mcl-Nag', 'snmd-mcl-NagIf', 'snmd-mcl-NagIfBw'],     /* maxline classes */
-            tcls: ['snmd-tcl-Nag', 'snmd-tcl-NagIf', 'snmd-tcl-NagIfBw']      /* text classes    */
+            lcls: ['snmd-lcl-Nag', 'snmd-lcl-NagFc', 'snmd-lcl-NagFcBw'],   /* line classes    */
+            mcls: ['snmd-mcl-Nag', 'snmd-mcl-NagFc', 'snmd-mcl-NagFcBw'],   /* maxline classes */
+            tcls: ['snmd-tcl-Nag', 'snmd-tcl-NagFc', 'snmd-tcl-NagFcBw']    /* text classes    */
         };
 
         // get max scaling
         var max = 0;
-        var m;
         var t;
         for (t = 0; t < desc.topics.length; t++) {
-            var results = new RegExp('Interface (.*Ethernet|POS)').exec(desc.topics[t]);
-            if (results && results[1]) {
-                switch (results[1]) {
-                case "TenGigabitEthernet":
-                    m =  2000 * 1000000;
-                    max = (m > max ? m : max);
-                    break;
-                case "GigabitEthernet":
-                    m =  200 * 1000000;
-                    max = (m > max ? m : max);
-                    break;
-                case "POS":
-                    m =   31 * 1000000;
-                    max = (m > max ? m : max);
-                    break;
-                case "FastEthernet":
-                    m =   20 * 1000000;
-                    max = (m > max ? m : max);
-                    break;
-                case "Ethernet":
-                    m =    2 * 1000000;
-                    max = (m > max ? m : max);
-                    break;
-                default:
-                    m =  this.opts.axis[0].max;
-                    max = (m > max ? m : max);
-                    break;
-                }
-            } else {
-                max +=   this.opts.axis[0].max;
-            }
+            max +=   this.opts.axis[0].max;
         }
         this.opts.axis[0].max = max;
         if (typeof desc.max !== "undefined") {
-            m = parseFloat(desc.max);
+            var m = parseFloat(desc.max);
             if (!isNaN(m)) {
                 this.opts.axis[0].max = m;
             }
@@ -109,15 +71,15 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
             {
                 name: 'in',
                 axis: 0,
-                unit: 'b'
+                unit: 'B'
             },
             {
                 name: 'out',
                 axis: 0,
-                unit: 'b'
+                unit: 'B'
             }
         ];
-
+        
         this.desc = desc;
         this.last = [];
         for (t = 0; t < desc.topics.length; t++) {
@@ -131,12 +93,12 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
         this.chart = new SVGImplChart(root, svg, this.opts, this.lines);
     };
     
-    NagiosIfBw.prototype.handleUpdate = function (topic, msg) {
+    ChartFcBw.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
-        } catch (err) {
-            console.error('JSON error in performance data: ' + err.message);
+        } catch (err_parse) {
+            console.error('JSON error in performance data: ' + err_parse.message);
             return;
         }
 
@@ -145,13 +107,10 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
             this.last[topic][i].val = 0;
             this.last[topic][i].state = 0;
             try {
-                this.last[topic][i].val = json.perf_data[this.lines[i].name].val * 8;
-            } catch (err_perf) {
-            }
-            try {
+                this.last[topic][i].val = json.perf_data[this.lines[i].name].val;
                 this.last[topic][i].state = json.state;
-            } catch (err_state) {
-                console.warn("Error to process state data: " + err_state.message);
+            } catch (err_last) {
+                console.warn("Error to process performance data of [" +  topic + "].line[" + i + "]: " + err_last.message);
             }
         }
         
@@ -174,5 +133,5 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
         this.chart.update(json._timestamp, vals, state);
     };
 
-    return NagiosIfBw;
+    return ChartFcBw;
 });

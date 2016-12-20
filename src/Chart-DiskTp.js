@@ -36,45 +36,32 @@ License:
 
 define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, SVGImplChart) {
     'use strict';
-    
-    var NagFcBwChart = function (root, svg, desc) {
+
+    var ChartDiskTp = function (root, svg, desc) {
         this.opts = {
             axis: [
                 {
-                    max: 100 * 1000000,
+                    max: 100000000,
                     scale: 'linear'
                 }
             ],
+            fill: 'white',
             desc: desc,
             dpi: 60 / 5 / 60,
             cls: SVGWidget.srClassOpts(desc, "Chart"),               /* rect classes    */
-            lcls: ['snmd-lcl-Nag', 'snmd-lcl-NagFc', 'snmd-lcl-NagFcBw'],   /* line classes    */
-            mcls: ['snmd-mcl-Nag', 'snmd-mcl-NagFc', 'snmd-mcl-NagFcBw'],   /* maxline classes */
-            tcls: ['snmd-tcl-Nag', 'snmd-tcl-NagFc', 'snmd-tcl-NagFcBw']    /* text classes    */
+            lcls: ['snmd-lcl-Nag', 'snmd-lcl-NagIO', 'snmd-lcl-NagIOTp'],   /* line classes    */
+            mcls: ['snmd-mcl-Nag', 'snmd-mcl-NagIO', 'snmd-mcl-NagIOTp'],   /* maxline classes */
+            tcls: ['snmd-tcl-Nag', 'snmd-tcl-NagIO', 'snmd-tcl-NagIOTp']    /* text classes    */
         };
-
-        // get max scaling
-        var max = 0;
-        var t;
-        for (t = 0; t < desc.topics.length; t++) {
-            max +=   this.opts.axis[0].max;
-        }
-        this.opts.axis[0].max = max;
-        if (typeof desc.max !== "undefined") {
-            var m = parseFloat(desc.max);
-            if (!isNaN(m)) {
-                this.opts.axis[0].max = m;
-            }
-        }
 
         this.lines = [
             {
-                name: 'in',
+                name: 'dist_read_throughput',
                 axis: 0,
                 unit: 'B'
             },
             {
-                name: 'out',
+                name: 'dist_write_throughput',
                 axis: 0,
                 unit: 'B'
             }
@@ -82,6 +69,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
         
         this.desc = desc;
         this.last = [];
+        var t;
         for (t = 0; t < desc.topics.length; t++) {
             this.last[desc.topics[t]] = [];
             var i;
@@ -93,7 +81,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
         this.chart = new SVGImplChart(root, svg, this.opts, this.lines);
     };
     
-    NagFcBwChart.prototype.handleUpdate = function (topic, msg) {
+    ChartDiskTp.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
@@ -110,7 +98,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
                 this.last[topic][i].val = json.perf_data[this.lines[i].name].val;
                 this.last[topic][i].state = json.state;
             } catch (err_last) {
-                console.warn("Error to process performance data of [" +  topic + "].line[" + i + "]: " + err_last.message);
+                console.warn("Error to process performance data of " + this.lines[i].name + ": " + err_last.message);
             }
         }
         
@@ -133,5 +121,5 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
         this.chart.update(json._timestamp, vals, state);
     };
 
-    return NagFcBwChart;
+    return ChartDiskTp;
 });

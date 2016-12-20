@@ -37,11 +37,13 @@ License:
 define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, SVGImplChart) {
     'use strict';
 
-    var NagiosCpuUtil = function (root, svg, desc) {
+    var ChartUpsLoad = function (root, svg, desc) {
+        var i;
+
         this.opts = {
             axis: [
                 {
-                    max: 100,
+                    max: 50,
                     scale: 'linear'
                 }
             ],
@@ -49,10 +51,9 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
             dpi: 60 / 5 / 60,
             cls: SVGWidget.srClassOpts(desc, "Chart")
         };
-
         this.lines = [
             {
-                name: 'util',
+                name: 'out_load',
                 axis: 0,
                 unit: '%',
                 style: {
@@ -64,42 +65,44 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
                 }
             }
         ];
-        
+
         this.desc = desc;
         this.last = [];
-        var i;
-        for (i = 0; i < desc.topics.length; i++) {
-            this.last[desc.topics[i]] = [0, 0];
+        for (i = 0; i < desc.topics.length; i += 1) {
+            this.last[desc.topics[i]] = [0];
         }
 
         this.chart = new SVGImplChart(root, svg, this.opts, this.lines);
     };
     
-    NagiosCpuUtil.prototype.handleUpdate = function (topic, msg) {
-        var json;
+    ChartUpsLoad.prototype.handleUpdate = function (topic, msg) {
+        var count,
+            i,
+            json,
+            vals = [];
+
         try {
             json = JSON.parse(msg);
         } catch (err_parse) {
             console.error('JSON error in performance data: ' + err_parse.message);
             return;
         }
-
-        var i;
-        for (i = 0; i < this.lines.length; i++) {
+        
+        for (i = 0; i < this.lines.length; i += 1) {
             this.last[topic][i] = 0;
             try {
                 this.last[topic][i] = json.perf_data[this.lines[i].name].val;
-            } catch (err_perf) {
-                console.warn("Error to process performance data of " + topic + "[" + i + "]: " + err_perf.message);
+            } catch (err_last) {
+                console.warn("Error to process performance data of [" + topic + "].line[" + i + "]: " + err_last.message);
             }
         }
         
-        var vals = [];
-        for (i = 0; i < this.lines.length; i++) {
+        for (i = 0; i < this.lines.length; i += 1) {
             vals[i] = 0;
 
-            var count = 0;
-            for (var t in this.last) {
+            count = 0;
+            var t;
+            for (t in this.last) {
                 vals[i] += parseFloat(this.last[t][i]);
                 count = count + 1;
             }
@@ -109,5 +112,5 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
         this.chart.update(json._timestamp, vals);
     };
 
-    return NagiosCpuUtil;
+    return ChartUpsLoad;
 });

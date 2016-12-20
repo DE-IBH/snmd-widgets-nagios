@@ -37,7 +37,7 @@ License:
 define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Class"], function (SVGWidget, SVGImplClass) {
     'use strict';
 
-    var NagTxtState = function (root, rsvg, desc) {
+    var ClassTextState = function (root, rsvg, desc) {
         this.opts = {
             cls: SVGWidget.srClassOpts(desc, "Class")
         };
@@ -59,7 +59,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Class"], function (SVGWidget, 
         this.el = new SVGImplClass(root, svg, this.opts);
     };
     
-    NagTxtState.prototype.handleUpdate = function (topic, msg) {
+    ClassTextState.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
@@ -84,5 +84,5 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Class"], function (SVGWidget, 
         this.el.update(state);
     };
 
-    return NagTxtState;
+    return ClassTextState;
 });

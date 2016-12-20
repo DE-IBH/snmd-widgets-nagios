@@ -34,20 +34,20 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/StrokeWidth"], function (SVGWidget, SVGImplStrokeWidth) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidget, SVGImplTransform) {
     'use strict';
 
-    var NagStrokePerfData = function (root, svg, desc) {
+    var TransformPerfData = function (root, svg, desc) {
         this.opts = {
             desc: desc,
-            cls: SVGWidget.srClassOpts(desc, "StrokeWidth")
+            cls: SVGWidget.srClassOpts(desc, "Transform")
         };
         
         this.desc = desc;
-        if (typeof this.desc.width === "undefined") {
-            this.opts.width = [1, 32];
+        if (typeof this.desc.transform === "undefined") {
+            this.opts.transform = 'scale(%)';
         } else {
-            this.opts.width = this.desc.width;
+            this.opts.transform = this.desc.transform;
         }
 
         if (typeof desc.keys === "undefined") {
@@ -80,19 +80,6 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/StrokeWidth"], function (SVGWi
             this.opts.max = 100;
         }
 
-        if (typeof desc.scale !== "undefined") {
-            this.opts.scale = desc.scale;
-        } else {
-            this.opts.scale = "linear";
-        }
-
-        this.opts.abs = false;
-        if (typeof desc.abs !== "undefined") {
-            if (desc.abs) {
-                this.opts.abs = true;
-            }
-        }
-
         this.last = [];
         this.factors = [];
         var i;
@@ -106,15 +93,15 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/StrokeWidth"], function (SVGWi
             }
         }
 
-        this.chart = new SVGImplStrokeWidth(root, svg, this.opts);
+        this.chart = new SVGImplTransform(root, svg, this.opts);
     };
     
-    NagStrokePerfData.prototype.handleUpdate = function (topic, msg) {
+    TransformPerfData.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
-        } catch (err_parse) {
-            console.error('JSON error in performance data: ' + err_parse.message);
+        } catch (err) {
+            console.error('JSON error in performance data: ' + err.message);
             return;
         }
         
@@ -129,7 +116,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/StrokeWidth"], function (SVGWi
         } catch (err_perf) {
             console.err("Error to process performance data [" + topic + "]: " + err_perf.message);
         }
-        
+
         try {
             this.last[topic].state = json.state;
         } catch (err_state) {
@@ -151,5 +138,5 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/StrokeWidth"], function (SVGWi
         this.chart.update(val, state);
     };
 
-    return NagStrokePerfData;
+    return TransformPerfData;
 });

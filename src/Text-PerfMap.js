@@ -37,7 +37,7 @@ License:
 define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, SVGImplText) {
     'use strict';
 
-    var NagTxtPerfMap = function (root, svg, desc) {
+    var TextPerfMap = function (root, svg, desc) {
         this.opts = {
             desc: desc,
             cls: SVGWidget.srClassOpts(desc, "Text")
@@ -60,7 +60,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, S
         this.chart = new SVGImplText(root, svg, this.opts);
     };
     
-    NagTxtPerfMap.prototype.handleUpdate = function (topic, msg) {
+    TextPerfMap.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
@@ -86,5 +86,5 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, S
         }
     };
 
-    return NagTxtPerfMap;
+    return TextPerfMap;
 });

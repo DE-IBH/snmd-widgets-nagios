@@ -34,20 +34,20 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidget, SVGImplTransform) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, SVGImplText) {
     'use strict';
 
-    var NagTrPerfData = function (root, svg, desc) {
+    var TextPerfData = function (root, svg, desc) {
         this.opts = {
             desc: desc,
-            cls: SVGWidget.srClassOpts(desc, "Transform")
+            cls: SVGWidget.srClassOpts(desc, "Text")
         };
         
         this.desc = desc;
-        if (typeof this.desc.transform === "undefined") {
-            this.opts.transform = 'scale(%)';
+        if (typeof this.desc.uom === "undefined") {
+            this.opts.uom = '';
         } else {
-            this.opts.transform = this.desc.transform;
+            this.opts.uom = this.desc.uom;
         }
 
         if (typeof desc.keys === "undefined") {
@@ -71,13 +71,8 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidg
             this.opts.factor = 1;
         }
 
-        if (typeof desc.max !== "undefined") {
-            this.opts.max = parseFloat(desc.max);
-            if (isNaN(this.opts.max)) {
-                this.opts.max = 100;
-            }
-        } else {
-            this.opts.max = 100;
+        if (typeof desc.fracts !== "undefined") {
+            this.opts.fracts = desc.fracts;
         }
 
         this.last = [];
@@ -93,15 +88,15 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidg
             }
         }
 
-        this.chart = new SVGImplTransform(root, svg, this.opts);
+        this.chart = new SVGImplText(root, svg, this.opts);
     };
     
-    NagTrPerfData.prototype.handleUpdate = function (topic, msg) {
+    TextPerfData.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
-        } catch (err) {
-            console.error('JSON error in performance data: ' + err.message);
+        } catch (err_parse) {
+            console.error('JSON error in performance data: ' + err_parse.message);
             return;
         }
         
@@ -116,7 +111,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidg
         } catch (err_perf) {
             console.err("Error to process performance data [" + topic + "]: " + err_perf.message);
         }
-
+        
         try {
             this.last[topic].state = json.state;
         } catch (err_state) {
@@ -138,5 +133,5 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidg
         this.chart.update(val, state);
     };
 
-    return NagTrPerfData;
+    return TextPerfData;
 });

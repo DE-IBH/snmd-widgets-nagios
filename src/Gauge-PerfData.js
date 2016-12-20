@@ -34,15 +34,24 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, SVGImplText) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Gauge"], function (SVGWidget, SVGImplGauge) {
     'use strict';
-
-    var NagTxtPerfData = function (root, svg, desc) {
+    
+    var GaugePerfData = function (root, svg, desc) {
         this.opts = {
+            axis: [
+                {
+                    max: 50,
+                    scale: 'linear'
+                }
+            ],
+            stroke: 'yellow',
+            fill: 'white',
             desc: desc,
-            cls: SVGWidget.srClassOpts(desc, "Text")
+            dpi: 60 / 5 / 60,
+            cls: SVGWidget.srClassOpts(desc, "Gauge")
         };
-        
+
         this.desc = desc;
         if (typeof this.desc.uom === "undefined") {
             this.opts.uom = '';
@@ -55,43 +64,24 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, S
         } else {
             this.opts.keys = desc.keys;
         }
-
-        if (typeof desc.factors === "undefined") {
-            this.opts.factors = [];
-        } else {
-            this.opts.factors = desc.factors;
-        }
-        
         if (typeof desc.factor !== "undefined") {
-            this.opts.factor = parseFloat(desc.factor);
-            if (isNaN(this.opts.factor)) {
-                this.opts.factor = 1;
-            }
+            this.opts.factor = desc.factor;
         } else {
             this.opts.factor = 1;
         }
 
-        if (typeof desc.fracts !== "undefined") {
-            this.opts.fracts = desc.fracts;
-        }
-
         this.last = [];
-        this.factors = [];
         var i;
         for (i = 0; i < desc.topics.length; i++) {
             this.last[desc.topics[i]] = [];
-
-            if (typeof this.opts.factors[i] === "undefined") {
-                this.factors[desc.topics[i]] = this.opts.factor;
-            } else {
-                this.factors[desc.topics[i]] = this.opts.factors[i];
-            }
         }
 
-        this.chart = new SVGImplText(root, svg, this.opts);
+        this.max = (typeof desc.max === "undefined" ? 100 : desc.max);
+        
+        this.chart = new SVGImplGauge(root, svg, this.opts);
     };
     
-    NagTxtPerfData.prototype.handleUpdate = function (topic, msg) {
+    GaugePerfData.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
@@ -101,21 +91,17 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, S
         }
         
         this.last[topic].val = 0;
+        this.last[topic].state = 0;
         try {
             var i;
             for (i = 0; i < this.opts.keys.length; i++) {
                 if (typeof json.perf_data[this.opts.keys[i]] !== "undefined") {
-                    this.last[topic].val += parseFloat(json.perf_data[this.opts.keys[i]].val) * this.factors[topic];
+                    this.last[topic].val += parseFloat(json.perf_data[this.opts.keys[i]].val);
                 }
             }
-        } catch (err_perf) {
-            console.err("Error to process performance data [" + topic + "]: " + err_perf.message);
-        }
-        
-        try {
             this.last[topic].state = json.state;
-        } catch (err_state) {
-            console.err("Error to process state data [" + topic + "]: " + err_state.message);
+        } catch (err_last) {
+            console.warn("Error to process performance data: " + err_last.message);
         }
         
         var val = 0;
@@ -130,8 +116,8 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, S
             state = Math.max(state, this.last[t].state);
         }
         
-        this.chart.update(val, state);
+        this.chart.update(val * this.opts.factor, this.max, state);
     };
 
-    return NagTxtPerfData;
+    return GaugePerfData;
 });
