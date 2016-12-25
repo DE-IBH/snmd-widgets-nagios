@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient"], function (SVGWidget, MQTT, SVGImplGradient) {
+define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient", "js-logger"], function (SVGWidget, MQTT, SVGImplGradient, Logger) {
     'use strict';
 
     var GradientPerfData = function (root, svg, desc) {
@@ -90,7 +90,7 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient"], 
         try {
             json = JSON.parse(msg);
         } catch (err) {
-            console.error('JSON error in performance data: ' + err.message);
+            Logger.debug('[Nagios/Gradient-PerfData] JSON error in performance data: ' + err.message);
             return;
         }
 
@@ -120,7 +120,7 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient"], 
                 }
             }
         } catch (err_perf) {
-            console.error("Error to process performance data [" + topic + "]: " + err_perf.message);
+            Logger.debug("[Nagios/Gradient-PerfData] Error processing performance data [" + topic + "]: " + err_perf.message);
         }
 
         if (changed === false) {
@@ -134,16 +134,16 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient"], 
             val = 0;
             var ok = true;
 
-            var topic;
-            for (topic in this.last[stop]) {
-                var v = parseFloat(this.last[stop][topic]);
+            var t;
+            for (t in this.last[stop]) {
+                var v = parseFloat(this.last[stop][t]);
                 if (isNaN(v)) {
                     v = 0;
                     ok = false;
                 }
                 val += v;
 
-                state = Math.max(state, this.states[topic]);
+                state = Math.max(state, this.states[t]);
             }
 
             val /= Object.keys(this.last[stop]).length;

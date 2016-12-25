@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, SVGImplChart) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart", "js-logger"], function (SVGWidget, SVGImplChart, Logger) {
     'use strict';
 
     var ChartCpuUtil = function (root, svg, desc) {
@@ -81,7 +81,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
         try {
             json = JSON.parse(msg);
         } catch (err_parse) {
-            console.error('JSON error in performance data: ' + err_parse.message);
+            Logger.debug('[Nagios/Chart-CpuUtil] JSON error in performance data: ' + err_parse.message);
             return;
         }
 
@@ -91,7 +91,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
             try {
                 this.last[topic][i] = json.perf_data[this.lines[i].name].val;
             } catch (err_perf) {
-                console.warn("Error to process performance data of " + topic + "[" + i + "]: " + err_perf.message);
+                Logger.debug("[Nagios/Chart-CpuUtil] Error processing performance data of " + topic + "[" + i + "]: " + err_perf.message);
             }
         }
         

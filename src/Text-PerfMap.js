@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, SVGImplText) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text", "js-logger"], function (SVGWidget, SVGImplText, Logger) {
     'use strict';
 
     var TextPerfMap = function (root, svg, desc) {
@@ -66,7 +66,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, S
         try {
             json = JSON.parse(msg);
         } catch (err_parse) {
-            console.error('JSON error in performance data: ' + err_parse.message);
+            Logger.debug('[Nagios/Text-PerfMap] JSON error in performance data: ' + err_parse.message);
             return;
         }
 
@@ -77,12 +77,12 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text"], function (SVGWidget, S
                     val = this.opts.map[val];
                 } else {
                     val = '?';
-                    console.debug("No mapping available [" + topic + "]: " + this.opts.key + " => '" + json.perf_data[this.opts.key].val + "'");
+                    Logger.debug("[Nagios/Text-PerfMap] No mapping available [" + topic + "]: " + this.opts.key + " => '" + json.perf_data[this.opts.key].val + "'");
                 }
             }
             this.chart.update(val, json.state, false);
         } catch (err_perf) {
-            console.err("Error to process performance data [" + topic + "]: " + err_perf.message);
+            Logger.debug("[Nagios/Text-PerfMap] Error processing performance data [" + topic + "]: " + err_perf.message);
         }
     };
 

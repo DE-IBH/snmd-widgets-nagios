@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, SVGImplChart) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart", "js-logger"], function (SVGWidget, SVGImplChart, Logger) {
     'use strict';
 
     var ChartDiskTp = function (root, svg, desc) {
@@ -87,7 +87,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
         try {
             json = JSON.parse(msg);
         } catch (err_parse) {
-            console.error('JSON error in performance data: ' + err_parse.message);
+            Logger.debug('[Nagios/Chart-DiskTp] JSON error in performance data: ' + err_parse.message);
             return;
         }
 
@@ -99,7 +99,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart"], function (SVGWidget, 
                 this.last[topic][i].val = json.perf_data[this.lines[i].name].val;
                 this.last[topic][i].state = json.state;
             } catch (err_last) {
-                console.warn("Error to process performance data of " + this.lines[i].name + ": " + err_last.message);
+                Logger.debug("[Nagios/Chart-DiskTp] Error processing performance data of " + this.lines[i].name + ": " + err_last.message);
             }
         }
         

@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Class"], function (SVGWidget, SVGImplClass) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Class", "js-logger"], function (SVGWidget, SVGImplClass, Logger) {
     'use strict';
 
     var ClassState = function (root, svg, desc) {
@@ -66,7 +66,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Class"], function (SVGWidget, 
         try {
             json = JSON.parse(msg);
         } catch (err_parse) {
-            console.error('JSON error in performance data: ' + err_parse.message);
+            Logger.debug('[Nagios/Class-State] JSON error in performance data: ' + err_parse.message);
             return;
         }
         
@@ -74,7 +74,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Class"], function (SVGWidget, 
         try {
             this.last[topic] = json.state;
         } catch (err_last) {
-            console.err("Error to process state data [" + topic + "]: " + err_last.message);
+            Logger.debug("[Nagios/Class-State] Error processing state data [" + topic + "]: " + err_last.message);
         }
         
         this.last.forEach(function (l) {

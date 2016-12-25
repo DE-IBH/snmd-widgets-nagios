@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Gauge"], function (SVGWidget, SVGImplGauge) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Gauge", "js-logger"], function (SVGWidget, SVGImplGauge, Logger) {
     'use strict';
     
     var GaugePerfData = function (root, svg, desc) {
@@ -87,7 +87,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Gauge"], function (SVGWidget, 
         try {
             json = JSON.parse(msg);
         } catch (err_parse) {
-            console.error('JSON error in performance data: ' + err_parse.message);
+            Logger.debug('[Nagios/Gauge-PerfData] JSON error in performance data: ' + err_parse.message);
             return;
         }
         
@@ -102,7 +102,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Gauge"], function (SVGWidget, 
             }
             this.last[topic].state = json.state;
         } catch (err_last) {
-            console.warn("Error to process performance data: " + err_last.message);
+            Logger.debug("[Nagios/Gauge-PerfData] Error processing performance data: " + err_last.message);
         }
         
         var val = 0;

@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidget, SVGImplTransform) {
+define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform", "js-logger"], function (SVGWidget, SVGImplTransform, Logger) {
     'use strict';
 
     var TransformPerfData = function (root, svg, desc) {
@@ -102,7 +102,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidg
         try {
             json = JSON.parse(msg);
         } catch (err) {
-            console.error('JSON error in performance data: ' + err.message);
+            Logger.debug('[Nagios/Transform-PerfData] JSON error in performance data: ' + err.message);
             return;
         }
         
@@ -115,13 +115,13 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform"], function (SVGWidg
                 }
             }
         } catch (err_perf) {
-            console.err("Error to process performance data [" + topic + "]: " + err_perf.message);
+            Logger.debug("[Nagios/Transform-PerfData] Error processing performance data [" + topic + "]: " + err_perf.message);
         }
 
         try {
             this.last[topic].state = json.state;
         } catch (err_state) {
-            console.err("Error to process state data [" + topic + "]: " + err_state.message);
+            Logger.debug("[Nagios/Transform-PerfData] Error processing state data [" + topic + "]: " + err_state.message);
         }
         
         var val = 0;
