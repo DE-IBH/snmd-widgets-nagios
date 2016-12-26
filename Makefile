@@ -17,7 +17,7 @@ DISTS:= \
 
 all: $(DISTS)
 
-dist/%.js: src/%.js
+dist/%.js: js/%.js
 	uglifyjs \
 	    --output $@ \
 	    --source-map $(subst .js,.map,$@) \
