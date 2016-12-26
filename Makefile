@@ -1,5 +1,6 @@
 
 DISTS:= \
+	dist/Boot.js \
 	dist/Chart-CpuUtil.js \
 	dist/Chart-DiskTp.js \
 	dist/Chart-FcBw.js \
