@@ -16,7 +16,7 @@ DISTS:= \
 	dist/Text-PerfMap.js \
 	dist/Transform-PerfData.js
 
-all: $(DISTS)
+all: $(DISTS) dist/widgets-nagios.min.css
 
 dist/%.js: js/%.js
 	uglifyjs \
@@ -28,5 +28,8 @@ dist/%.js: js/%.js
 	    --stats \
 	    -- $+
 
+dist/widgets-nagios.min.css: css/widgets-nagios.css
+	uglifycss $+ > $@
+
 clean:
-	rm -f dist/*.js dist/*.map
+	rm -f dist/*.js dist/*.map dist/widgets-nagios.min.css
