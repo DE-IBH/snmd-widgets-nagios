@@ -80,7 +80,7 @@ define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient", "
         this.grad = new SVGImplGradient(root, svg, this.opts);
 
         /* subscribe to topics */
-        this.tmap.forEach(function (topic) {
+        Object.keys(this.tmap).forEach(function (topic) {
             MQTT.srRegisterTopic(topic, this);
         }, this);
     };
