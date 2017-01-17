@@ -45,9 +45,9 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text", "js-logger"], function 
         };
 
         this.desc = desc;
-        
+
         this.opts.key = desc.key;
-        
+
         if (typeof desc.map !== "undefined") {
             this.opts.map = desc.map;
         } else {
@@ -60,7 +60,7 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text", "js-logger"], function 
 
         this.chart = new SVGImplText(root, svg, this.opts);
     };
-    
+
     TextPerfMap.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
@@ -71,9 +71,10 @@ define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text", "js-logger"], function 
         }
 
         try {
-            var val = '';
+            var val = '?';
             if (typeof json.perf_data[this.opts.key] !== "undefined") {
-                if (json.perf_data[this.opts.key].val in this.opts.map) {
+                val = json.perf_data[this.opts.key].val;
+                if (val in this.opts.map) {
                     val = this.opts.map[val];
                 } else {
                     val = '?';
