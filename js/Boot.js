@@ -45,7 +45,7 @@ define(["css!snmd-widgets-nagios/css/widgets-nagios.css"], function () {
             throw new Error("Cannot instantiate more than one instance, use getInstance()!");
         }
 
-        this.version = '0.2';
+        this.version = '0.3';
     };
 
     Boot.getInstance = function () {
