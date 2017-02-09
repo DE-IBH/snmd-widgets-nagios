@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Text", "js-logger"], function (SVGWidget, SVGImplText, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "js-logger"], function (SVGWidget, SVGImplText, Logger) {
     'use strict';
 
     var TextPerfData = function (root, svg, desc) {

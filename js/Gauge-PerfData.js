@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Gauge", "js-logger"], function (SVGWidget, SVGImplGauge, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "js-logger"], function (SVGWidget, SVGImplGauge, Logger) {
     'use strict';
     
     var GaugePerfData = function (root, svg, desc) {

@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/MQTT", "snmd-core/SVGImpl/Gradient", "js-logger"], function (SVGWidget, MQTT, SVGImplGradient, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Gradient", "js-logger"], function (SVGWidget, MQTT, SVGImplGradient, Logger) {
     'use strict';
 
     var GradientPerfData = function (root, svg, desc) {

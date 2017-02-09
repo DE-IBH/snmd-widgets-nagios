@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["css!snmd-widgets-nagios/widgets-nagios.min.css"], function () {
+define(["css!snmd-widgets-nagios/css/widgets-nagios.css"], function () {
     'use strict';
 
     var instance = null;

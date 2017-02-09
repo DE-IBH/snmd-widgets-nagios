@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/StrokeWidth", "js-logger"], function (SVGWidget, SVGImplStrokeWidth, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "js-logger"], function (SVGWidget, SVGImplStrokeWidth, Logger) {
     'use strict';
 
     var StrokePerfData = function (root, svg, desc) {

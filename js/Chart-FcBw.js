@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Chart", "js-logger"], function (SVGWidget, SVGImplChart, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], function (SVGWidget, SVGImplChart, Logger) {
     'use strict';
     
     var ChartFcBw = function (root, svg, desc) {

@@ -1,24 +1,24 @@
 
 DISTS:= \
-	dist/Boot.js \
-	dist/Chart-CpuUtil.js \
-	dist/Chart-DiskTp.js \
-	dist/Chart-FcBw.js \
-	dist/Chart-IfBw.js \
-	dist/Chart-IfPr.js \
-	dist/Chart-UpsLoad.js \
-	dist/Class-State.js \
-	dist/Class-TextState.js \
-	dist/Gauge-PerfData.js \
-	dist/Gradient-PerfData.js \
-	dist/Stroke-PerfData.js \
-	dist/Text-PerfData.js \
-	dist/Text-PerfMap.js \
-	dist/Transform-PerfData.js
+	dist/js/Boot.js \
+	dist/js/Chart-CpuUtil.js \
+	dist/js/Chart-DiskTp.js \
+	dist/js/Chart-FcBw.js \
+	dist/js/Chart-IfBw.js \
+	dist/js/Chart-IfPr.js \
+	dist/js/Chart-UpsLoad.js \
+	dist/js/Class-State.js \
+	dist/js/Class-TextState.js \
+	dist/js/Gauge-PerfData.js \
+	dist/js/Gradient-PerfData.js \
+	dist/js/Stroke-PerfData.js \
+	dist/js/Text-PerfData.js \
+	dist/js/Text-PerfMap.js \
+	dist/js/Transform-PerfData.js
 
-all: $(DISTS) dist/widgets-nagios.min.css
+all: $(DISTS) dist/css/widgets-nagios.css
 
-dist/%.js: js/%.js
+dist/js/%.js: js/%.js
 	uglifyjs \
 	    --output $@ \
 	    --source-map $(subst .js,.map,$@) \
@@ -28,8 +28,8 @@ dist/%.js: js/%.js
 	    --stats \
 	    -- $+
 
-dist/widgets-nagios.min.css: css/widgets-nagios.css
+dist/css/widgets-nagios.css: css/widgets-nagios.css
 	uglifycss $+ > $@
 
 clean:
-	rm -f dist/*.js dist/*.map dist/widgets-nagios.min.css
+	rm -f dist/js/*.js dist/js/*.map dist/css/widgets-nagios.css

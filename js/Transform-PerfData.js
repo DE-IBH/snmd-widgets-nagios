@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/SVGWidget", "snmd-core/SVGImpl/Transform", "js-logger"], function (SVGWidget, SVGImplTransform, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Transform", "js-logger"], function (SVGWidget, SVGImplTransform, Logger) {
     'use strict';
 
     var TransformPerfData = function (root, svg, desc) {
