@@ -6,6 +6,7 @@ DISTS:= \
 	dist/js/Chart-FcBw.js \
 	dist/js/Chart-IfBw.js \
 	dist/js/Chart-IfPr.js \
+	dist/js/Chart-OMDChecks.js \
 	dist/js/Chart-UpsLoad.js \
 	dist/js/Class-State.js \
 	dist/js/Class-TextState.js \
