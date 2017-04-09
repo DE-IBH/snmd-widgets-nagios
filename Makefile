@@ -8,6 +8,7 @@ DISTS:= \
 	dist/js/Chart-IfPr.js \
 	dist/js/Chart-OMDChecks.js \
 	dist/js/Chart-UpsLoad.js \
+	dist/js/Chart-WlcClients.js \
 	dist/js/Class-State.js \
 	dist/js/Class-TextState.js \
 	dist/js/Gauge-PerfData.js \

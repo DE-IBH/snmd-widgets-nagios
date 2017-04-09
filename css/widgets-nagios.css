@@ -93,3 +93,14 @@
 .snmd-bcl-opacity-stroke.snmd-bcl-Nagios_Class-TextState.snmd-scl-0 {
     stroke: none;
 }
+
+
+.snmd-lcl-NagWlcClients-connections {
+    fill: DodgerBlue;
+    stroke: DodgerBlue;
+}
+.snmd-tcl-NagWlcClients-connections {
+    text-anchor: begin;
+    fill: LimeGreen;
+    transform: translate(3px, 13px);
+}
