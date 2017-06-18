@@ -57,12 +57,12 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], fu
 
         this.lines = [
             {
-                name: 'dist_read_throughput',
+                name: 'disk_read_throughput',
                 axis: 0,
                 unit: 'B'
             },
             {
-                name: 'dist_write_throughput',
+                name: 'disk_write_throughput',
                 axis: 0,
                 unit: 'B'
             }
