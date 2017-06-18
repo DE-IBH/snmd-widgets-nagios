@@ -2,7 +2,10 @@
 DISTS:= \
 	dist/js/Boot.js \
 	dist/js/Chart-CpuUtil.js \
+	dist/js/Chart-DiskIops.js \
 	dist/js/Chart-DiskTp.js \
+	dist/js/Chart-DiskUtil.js \
+	dist/js/Chart-DiskWait.js \
 	dist/js/Chart-FcBw.js \
 	dist/js/Chart-IfBw.js \
 	dist/js/Chart-IfPr.js \

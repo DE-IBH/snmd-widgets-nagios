@@ -7,7 +7,7 @@ Authors:
 
 Copyright Holder:
   2012 - 2013 (C) Thomas Liske [https://fiasko-nw.net/~thomas/]
-  2014 - 2016 (C) IBH IT-Service GmbH [https://www.ibh.de/]
+  2014 - 2017 (C) IBH IT-Service GmbH [https://www.ibh.de/]
 
 License:
   This program is free software; you can redistribute it and/or modify
@@ -38,11 +38,11 @@ License:
 define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], function (SVGWidget, SVGImplChart, Logger) {
     'use strict';
 
-    var ChartDiskTp = function (root, svg, desc) {
+    var ChartDiskUtil = function (root, svg, desc) {
         this.opts = {
             axis: [
                 {
-                    max: 100000000,
+                    max: 100,
                     scale: 'linear'
                 }
             ],
@@ -50,21 +50,16 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], fu
             desc: desc,
             dpi: 60 / 5 / 60,
             cls: SVGWidget.srClassOpts(desc, "Chart"),               /* rect classes    */
-            lcls: ['snmd-lcl-Nag', 'snmd-lcl-NagDisk', 'snmd-lcl-NagDiskTp'],   /* line classes    */
-            mcls: ['snmd-mcl-Nag', 'snmd-mcl-NagDisk', 'snmd-mcl-NagDiskTp'],   /* maxline classes */
-            tcls: ['snmd-tcl-Nag', 'snmd-tcl-NagDisk', 'snmd-tcl-NagDiskTp']    /* text classes    */
+            lcls: ['snmd-lcl-Nag', 'snmd-lcl-NagDisk', 'snmd-lcl-NagDiskUtil'],   /* line classes    */
+            mcls: ['snmd-mcl-Nag', 'snmd-mcl-NagDisk', 'snmd-mcl-NagDiskUtil'],   /* maxline classes */
+            tcls: ['snmd-tcl-Nag', 'snmd-tcl-NagDisk', 'snmd-tcl-NagDiskUtil']    /* text classes    */
         };
 
         this.lines = [
             {
-                name: 'disk_read_throughput',
+                name: 'disk_utilization',
                 axis: 0,
-                unit: 'B'
-            },
-            {
-                name: 'disk_write_throughput',
-                axis: 0,
-                unit: 'B'
+                unit: '%'
             }
         ];
 
@@ -82,12 +77,12 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], fu
         this.chart = new SVGImplChart(root, svg, this.opts, this.lines);
     };
 
-    ChartDiskTp.prototype.handleUpdate = function (topic, msg) {
+    ChartDiskUtil.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
         } catch (err_parse) {
-            Logger.debug('[Nagios/Chart-DiskTp] JSON error in performance data: ' + err_parse.message);
+            Logger.debug('[Nagios/Chart-DiskUtil] JSON error in performance data: ' + err_parse.message);
             return;
         }
 
@@ -99,7 +94,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], fu
                 this.last[topic][i].val = json.perf_data[this.lines[i].name].val;
                 this.last[topic][i].state = json.state;
             } catch (err_last) {
-                Logger.debug("[Nagios/Chart-DiskTp] Error processing performance data of " + this.lines[i].name + ": " + err_last.message);
+                Logger.debug("[Nagios/Chart-DiskUtil] Error processing performance data of " + this.lines[i].name + ": " + err_last.message);
             }
         }
 
@@ -114,7 +109,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], fu
                 if (isNaN(v)) {
                     v = 0;
                 }
-                vals[i] += v;
+                vals[i] += v * 100;
                 state = Math.max(state, this.last[t][i].state);
             }
         }
@@ -122,5 +117,5 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], fu
         this.chart.update(json._timestamp, vals, state);
     };
 
-    return ChartDiskTp;
+    return ChartDiskUtil;
 });
