@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "jquery", "js-logger"], function (SVGWidget, SVGImplClass, $, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "js-logger"], function (SVGWidget, SVGImplClass, Logger) {
     'use strict';
 
     var ClassState = function (root, svg, desc) {
