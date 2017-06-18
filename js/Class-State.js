@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "js-logger"], function (SVGWidget, SVGImplClass, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "jquery", "js-logger"], function (SVGWidget, SVGImplClass, $, Logger) {
     'use strict';
 
     var ClassState = function (root, svg, desc) {
@@ -77,9 +77,10 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "js-logger"], fu
             Logger.debug("[Nagios/Class-State] Error processing state data [" + topic + "]: " + err_last.message);
         }
         
-        this.last.forEach(function (l) {
-            state = Math.max(state, l);
-        });
+        var t;
+        for (t in this.last) {
+            state = Math.max(state, this.last[t]);
+        }
         
         this.el.update(state);
     };
