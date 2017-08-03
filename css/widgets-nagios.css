@@ -23,8 +23,13 @@
     fill: LawnGreen;
     stroke: LawnGreen;
 }
+.snmd-lcl-NagIf-drop {
+    fill: LightCoral;
+    stroke: LightCoral;
+}
 .snmd-lcl-NagIf-out,
-.snmd-lcl-NagIf-outucast {
+.snmd-lcl-NagIf-outucast,
+.snmd-lcl-NagIf-post {
     stroke: DodgerBlue;
 }
 
@@ -34,8 +39,14 @@
     fill: LimeGreen;
     transform: translate(3px, 13px);
 }
+.snmd-tcl-NagIf-drop {
+    text-anchor: begin;
+    fill: LightCoral;
+    transform: translate(3px, 13px);
+}
 .snmd-tcl-NagIf-out,
-.snmd-tcl-NagIf-outucast {
+.snmd-tcl-NagIf-outucast,
+.snmd-tcl-NagIf-post {
     text-anchor: end;
     fill: DodgerBlue;
     transform: translate(-3px, 13px);
