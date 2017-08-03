@@ -40,16 +40,20 @@
     transform: translate(3px, 13px);
 }
 .snmd-tcl-NagIf-drop {
-    text-anchor: begin;
+    text-anchor: end;
     fill: LightCoral;
-    transform: translate(3px, 13px);
+    transform: translate(-3px, -13px);
 }
 .snmd-tcl-NagIf-out,
-.snmd-tcl-NagIf-outucast,
-.snmd-tcl-NagIf-post {
+.snmd-tcl-NagIf-outucast {
     text-anchor: end;
     fill: DodgerBlue;
     transform: translate(-3px, 13px);
+}
+.snmd-tcl-NagIf-post {
+    text-anchor: begin;
+    fill: DodgerBlue;
+    transform: translate(3px, 13px);
 }
 
 
