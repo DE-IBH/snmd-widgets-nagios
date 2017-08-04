@@ -10,6 +10,7 @@ DISTS:= \
 	dist/js/Chart-IfBw.js \
 	dist/js/Chart-IfPr.js \
 	dist/js/Chart-IfQoS.js \
+	dist/js/Chart-IfVPN.js \
 	dist/js/Chart-OMDChecks.js \
 	dist/js/Chart-UpsLoad.js \
 	dist/js/Chart-WlcClients.js \
