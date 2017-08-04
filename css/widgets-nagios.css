@@ -19,7 +19,8 @@
 
 
 .snmd-lcl-NagIf-in,
-.snmd-lcl-NagIf-inucast {
+.snmd-lcl-NagIf-inucast,
+.snmd-lcl-NagIf-if_in_octets {
     fill: LawnGreen;
     stroke: LawnGreen;
 }
@@ -29,12 +30,14 @@
 }
 .snmd-lcl-NagIf-out,
 .snmd-lcl-NagIf-outucast,
+.snmd-lcl-NagIf-if_out_octets,
 .snmd-lcl-NagIf-post {
     stroke: DodgerBlue;
 }
 
 .snmd-tcl-NagIf-in,
-.snmd-tcl-NagIf-inucast {
+.snmd-tcl-NagIf-inucast,
+.snmd-tcl-NagIf-if_in_octets {
     text-anchor: begin;
     fill: LimeGreen;
     transform: translate(3px, 13px);
@@ -45,7 +48,8 @@
     transform: translate(-3px, 13px);
 }
 .snmd-tcl-NagIf-out,
-.snmd-tcl-NagIf-outucast {
+.snmd-tcl-NagIf-outucast,
+.snmd-tcl-NagIf-if_out_octets {
     text-anchor: end;
     fill: DodgerBlue;
     transform: translate(-3px, 13px);
