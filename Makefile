@@ -18,6 +18,7 @@ DISTS:= \
 	dist/js/Class-TextState.js \
 	dist/js/Gauge-PerfData.js \
 	dist/js/Gradient-PerfData.js \
+	dist/js/RadialGradient-PerfData.js \
 	dist/js/Stroke-PerfData.js \
 	dist/js/Text-PerfData.js \
 	dist/js/Text-PerfMap.js \

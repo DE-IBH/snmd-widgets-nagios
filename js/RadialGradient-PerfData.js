@@ -35,16 +35,15 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Gradient", "js-logger"], function (SVGWidget, MQTT, SVGImplGradient, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/RadialGradient", "js-logger"], function (SVGWidget, MQTT, SVGImplGradient, Logger) {
     'use strict';
 
-    var GradientPerfData = function (root, svg, desc) {
+    var RadialGradientPerfData = function (root, svg, desc) {
         this.opts = {
             cls: SVGWidget.srClassOpts(desc, "Gradient"),
             range: desc.range,
             hoffset: desc.hoffset,
             hscale: desc.hscale,
-            coords: desc.coords
         };
 
         if (typeof desc.keys === "undefined") {
@@ -85,7 +84,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Gra
         }, this);
     };
     
-    GradientPerfData.prototype.handleUpdate = function (topic, msg) {
+    RadialGradientPerfData.prototype.handleUpdate = function (topic, msg) {
         var json;
         try {
             json = JSON.parse(msg);
@@ -165,5 +164,5 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Gra
         this.grad.update(stops, state);
     };
 
-    return GradientPerfData;
+    return RadialGradientPerfData;
 });
