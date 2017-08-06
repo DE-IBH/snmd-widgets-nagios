@@ -50,7 +50,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "jquery", "js-lo
         }
 
         var svg = $(rsvg).children('tspan')[0];
-        
+
         if (typeof desc.clrsty !== "undefined") {
             for (i = 0; i < desc.clrsty.length; i++) {
                 svg.style[desc.clrsty[i]] = '';

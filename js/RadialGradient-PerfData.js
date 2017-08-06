@@ -40,11 +40,18 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Rad
 
     var RadialGradientPerfData = function (root, svg, desc) {
         this.opts = {
-            cls: SVGWidget.srClassOpts(desc, "Gradient"),
+            cls: SVGWidget.srClassOpts(desc, "RadialGradient"),
             range: desc.range,
             hoffset: desc.hoffset,
             hscale: desc.hscale,
         };
+
+        var i;
+        if (typeof desc.clrsty !== "undefined") {
+            for (i = 0; i < desc.clrsty.length; i++) {
+                svg.style[desc.clrsty[i]] = '';
+            }
+        }
 
         if (typeof desc.keys === "undefined") {
             this.opts.keys = [desc.key];
