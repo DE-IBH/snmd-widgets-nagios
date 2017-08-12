@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Gradient", "js-logger"], function (SVGWidget, MQTT, SVGImplGradient, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Gradient", "snmd-widgets-nagios/js/Utils", "js-logger"], function (SVGWidget, MQTT, SVGImplGradient, Utils, Logger) {
     'use strict';
 
     var GradientPerfData = function (root, svg, desc) {
@@ -77,7 +77,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Gra
         }
         this.opts.stops = Object.keys(this.last);
 
-        this.grad = new SVGImplGradient(root, svg, this.opts);
+        this.grad = new SVGImplGradient(root, svg, this.opts, Utils.qTipConfig("Performance Data", this));
 
         /* subscribe to topics */
         Object.keys(this.tmap).forEach(function (topic) {
@@ -93,6 +93,8 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Gra
             Logger.debug('[Nagios/Gradient-PerfData] JSON error in performance data: ' + err.message);
             return;
         }
+
+        Utils.qTipUpdate(json, this);
 
         /* set last value of current topic to zero */
         var i;

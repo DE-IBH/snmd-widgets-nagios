@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], function (SVGWidget, SVGImplChart, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-nagios/js/Utils", "js-logger"], function (SVGWidget, SVGImplChart, Utils, Logger) {
     'use strict';
 
     var ChartIfPr = function (root, svg, desc) {
@@ -122,7 +122,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], fu
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines);
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig("Interface Packet Rate", this));
     };
     
     ChartIfPr.prototype.handleUpdate = function (topic, msg) {
@@ -133,6 +133,8 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], fu
             Logger.debug('[Nagios/Chart-IfPr] JSON error in performance data: ' + err.message);
             return;
         }
+
+        Utils.qTipUpdate(json, this);
 
         var i;
         for (i = 0; i < this.lines.length; i++) {

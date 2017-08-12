@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "js-logger"], function (SVGWidget, SVGImplText, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "snmd-widgets-nagios/js/Utils", "js-logger"], function (SVGWidget, SVGImplText, Utils, Logger) {
     'use strict';
 
     var TextPerfData = function (root, svg, desc) {
@@ -89,7 +89,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "js-logger"], fun
             }
         }
 
-        this.chart = new SVGImplText(root, svg, this.opts);
+        this.chart = new SVGImplText(root, svg, this.opts, Utils.qTipConfig("Performance Data", this));
     };
     
     TextPerfData.prototype.handleUpdate = function (topic, msg) {
@@ -100,7 +100,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "js-logger"], fun
             Logger.debug('[Nagios/Text-PerfData] JSON error in performance data: ' + err_parse.message);
             return;
         }
-        
+
+        Utils.qTipUpdate(json, this);
+
         this.last[topic].val = 0;
         try {
             var i;

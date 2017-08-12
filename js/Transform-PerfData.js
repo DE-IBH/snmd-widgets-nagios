@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Transform", "js-logger"], function (SVGWidget, SVGImplTransform, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Transform", "snmd-widgets-nagios/js/Utils", "js-logger"], function (SVGWidget, SVGImplTransform, Utils, Logger) {
     'use strict';
 
     var TransformPerfData = function (root, svg, desc) {
@@ -94,7 +94,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Transform", "js-logger"]
             }
         }
 
-        this.chart = new SVGImplTransform(root, svg, this.opts);
+        this.chart = new SVGImplTransform(root, svg, this.opts, Utils.qTipConfig("Performance Data", this));
     };
     
     TransformPerfData.prototype.handleUpdate = function (topic, msg) {
@@ -105,7 +105,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Transform", "js-logger"]
             Logger.debug('[Nagios/Transform-PerfData] JSON error in performance data: ' + err.message);
             return;
         }
-        
+
+        Utils.qTipUpdate(json, this);
+
         this.last[topic].val = 0;
         try {
             var i;

@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "js-logger"], function (SVGWidget, SVGImplClass, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-nagios/js/Utils", "js-logger"], function (SVGWidget, SVGImplClass, Utils, Logger) {
     'use strict';
 
     var ClassState = function (root, svg, desc) {
@@ -56,7 +56,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "js-logger"], fu
             }
         }
 
-        this.el = new SVGImplClass(root, svg, this.opts);
+        this.el = new SVGImplClass(root, svg, this.opts, Utils.qTipConfig("Service State", this));
     };
 
     ClassState.prototype.handleUpdate = function (topic, msg) {
@@ -69,7 +69,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "js-logger"], fu
             Logger.debug('[Nagios/Class-State] JSON error in performance data: ' + err_parse.message);
             return;
         }
-        
+
+        Utils.qTipUpdate(json, this);
+
         this.last[topic] = undefined;
         try {
             this.last[topic] = json.state;

@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "js-logger"], function (SVGWidget, SVGImplText, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "snmd-widgets-nagios/js/Utils", "js-logger"], function (SVGWidget, SVGImplText, Utils, Logger) {
     'use strict';
 
     var TextPerfMap = function (root, svg, desc) {
@@ -58,7 +58,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "js-logger"], fun
             throw "NagTextPerfMap supports a single topic, only!";
         }
 
-        this.chart = new SVGImplText(root, svg, this.opts);
+        this.chart = new SVGImplText(root, svg, this.opts, Utils.qTipConfig("Performance Data", this));
     };
 
     TextPerfMap.prototype.handleUpdate = function (topic, msg) {
@@ -69,6 +69,8 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "js-logger"], fun
             Logger.debug('[Nagios/Text-PerfMap] JSON error in performance data: ' + err_parse.message);
             return;
         }
+
+        Utils.qTipUpdate(json, this);
 
         try {
             var val = '?';

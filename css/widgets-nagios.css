@@ -123,3 +123,20 @@
     fill: LimeGreen;
     transform: translate(3px, 13px);
 }
+
+
+.snmd-qt-NagHost {
+    font-weight: bolder;
+    margin: 0;
+}
+
+.snmd-qt-NagService {
+    font-weight: bold;
+    margin: 0 0 0 1em;
+}
+
+.snmd-qt-NagOutput {
+    font-weight: lighter;
+    margin: 0 0 0 2em;
+    padding: 0.4em;
+}

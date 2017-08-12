@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], function (SVGWidget, SVGImplChart, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-nagios/js/Utils", "js-logger"], function (SVGWidget, SVGImplChart, Utils, Logger) {
     'use strict';
 
     var ChartCpuUtil = function (root, svg, desc) {
@@ -73,7 +73,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "js-logger"], fu
             this.last[desc.topics[i]] = [0, 0];
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines);
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig("CPU Utilization", this));
     };
     
     ChartCpuUtil.prototype.handleUpdate = function (topic, msg) {

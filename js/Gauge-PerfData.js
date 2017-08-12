@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "js-logger"], function (SVGWidget, SVGImplGauge, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "snmd-widgets-nagios/js/Utils","js-logger"], function (SVGWidget, SVGImplGauge, Utils, Logger) {
     'use strict';
     
     var GaugePerfData = function (root, svg, desc) {
@@ -79,7 +79,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "js-logger"], fu
 
         this.max = (typeof desc.max === "undefined" ? 100 : desc.max);
         
-        this.chart = new SVGImplGauge(root, svg, this.opts);
+        this.chart = new SVGImplGauge(root, svg, this.opts, Utils.qTipConfig("Performance Data", this));
     };
     
     GaugePerfData.prototype.handleUpdate = function (topic, msg) {
@@ -90,7 +90,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "js-logger"], fu
             Logger.debug('[Nagios/Gauge-PerfData] JSON error in performance data: ' + err_parse.message);
             return;
         }
-        
+
+        Utils.qTipUpdate(json, this);
+
         this.last[topic].val = 0;
         this.last[topic].state = 0;
         try {

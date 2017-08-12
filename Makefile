@@ -1,6 +1,7 @@
 
 DISTS:= \
 	dist/js/Boot.js \
+	dist/js/Utils.js \
 	dist/js/Chart-CpuUtil.js \
 	dist/js/Chart-DiskIops.js \
 	dist/js/Chart-DiskTp.js \

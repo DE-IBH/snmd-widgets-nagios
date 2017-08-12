@@ -35,7 +35,7 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "js-logger"], function (SVGWidget, SVGImplStrokeWidth, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "snmd-widgets-nagios/js/Utils", "js-logger"], function (SVGWidget, SVGImplStrokeWidth, Utils, Logger) {
     'use strict';
 
     var StrokePerfData = function (root, svg, desc) {
@@ -107,7 +107,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "js-logger
             }
         }
 
-        this.chart = new SVGImplStrokeWidth(root, svg, this.opts);
+        this.chart = new SVGImplStrokeWidth(root, svg, this.opts, Utils.qTipConfig("Performance Data", this));
     };
     
     StrokePerfData.prototype.handleUpdate = function (topic, msg) {
@@ -118,7 +118,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "js-logger
             Logger.debug('[Nagios/Stroke-PerfData] JSON error in performance data: ' + err_parse.message);
             return;
         }
-        
+
+        Utils.qTipUpdate(json, this);
+
         this.last[topic].val = 0;
         try {
             var i;
