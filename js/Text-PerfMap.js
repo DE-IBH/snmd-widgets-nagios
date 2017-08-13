@@ -58,7 +58,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "snmd-widgets-nag
             throw "NagTextPerfMap supports a single topic, only!";
         }
 
-        this.chart = new SVGImplText(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data"));
+        this.chart = new SVGImplText(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", [this.opts.key]));
     };
 
     TextPerfMap.prototype.handleUpdate = function (topic, msg) {

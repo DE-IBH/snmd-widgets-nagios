@@ -79,7 +79,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "snmd-widgets-na
 
         this.max = (typeof desc.max === "undefined" ? 100 : desc.max);
         
-        this.chart = new SVGImplGauge(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data"));
+        this.chart = new SVGImplGauge(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", this.opts.keys));
     };
     
     GaugePerfData.prototype.handleUpdate = function (topic, msg) {

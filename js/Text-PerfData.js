@@ -89,7 +89,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "snmd-widgets-nag
             }
         }
 
-        this.chart = new SVGImplText(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data"));
+        this.chart = new SVGImplText(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", this.opts.keys));
     };
     
     TextPerfData.prototype.handleUpdate = function (topic, msg) {

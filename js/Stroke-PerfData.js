@@ -107,7 +107,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "snmd-widg
             }
         }
 
-        this.chart = new SVGImplStrokeWidth(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data"));
+        this.chart = new SVGImplStrokeWidth(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", this.opts.keys));
     };
     
     StrokePerfData.prototype.handleUpdate = function (topic, msg) {
