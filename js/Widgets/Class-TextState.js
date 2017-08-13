@@ -38,7 +38,7 @@ License:
 define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-nagios/js/Utils", "jquery", "js-logger"], function (SVGWidget, SVGImplClass, Utils, $, Logger) {
     'use strict';
 
-    var ClassTextState = function (root, rsvg, desc) {
+    var ClassTextState = function (root, svg, desc) {
         this.opts = {
             cls: SVGWidget.srClassOpts(desc, "Class")
         };
@@ -49,11 +49,12 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
             this.last[desc.topics[i]] = [3];
         }
 
-        var svg = $(rsvg).children('tspan')[0];
-
         if (typeof desc.clrsty !== "undefined") {
             for (i = 0; i < desc.clrsty.length; i++) {
                 svg.style[desc.clrsty[i]] = '';
+                $(svg).children('tspan').each(function(i, c) {
+                    c.style[desc.clrsty[i]] = '';
+                });
             }
         }
 
