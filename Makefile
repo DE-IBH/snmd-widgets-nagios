@@ -2,28 +2,28 @@
 DISTS:= \
 	dist/js/Boot.js \
 	dist/js/Utils.js \
-	dist/js/Chart-CpuUtil.js \
-	dist/js/Chart-DiskIops.js \
-	dist/js/Chart-DiskTp.js \
-	dist/js/Chart-DiskUtil.js \
-	dist/js/Chart-DiskWait.js \
-	dist/js/Chart-FcBw.js \
-	dist/js/Chart-IfBw.js \
-	dist/js/Chart-IfPr.js \
-	dist/js/Chart-IfQoS.js \
-	dist/js/Chart-IfVPN.js \
-	dist/js/Chart-OMDChecks.js \
-	dist/js/Chart-UpsLoad.js \
-	dist/js/Chart-WlcClients.js \
-	dist/js/Class-State.js \
-	dist/js/Class-TextState.js \
-	dist/js/Gauge-PerfData.js \
-	dist/js/Gradient-PerfData.js \
-	dist/js/RadialGradient-PerfData.js \
-	dist/js/Stroke-PerfData.js \
-	dist/js/Text-PerfData.js \
-	dist/js/Text-PerfMap.js \
-	dist/js/Transform-PerfData.js
+	dist/js/Widgets/Chart-CpuUtil.js \
+	dist/js/Widgets/Chart-DiskIops.js \
+	dist/js/Widgets/Chart-DiskTp.js \
+	dist/js/Widgets/Chart-DiskUtil.js \
+	dist/js/Widgets/Chart-DiskWait.js \
+	dist/js/Widgets/Chart-FcBw.js \
+	dist/js/Widgets/Chart-IfBw.js \
+	dist/js/Widgets/Chart-IfPr.js \
+	dist/js/Widgets/Chart-IfQoS.js \
+	dist/js/Widgets/Chart-IfVPN.js \
+	dist/js/Widgets/Chart-OMDChecks.js \
+	dist/js/Widgets/Chart-UpsLoad.js \
+	dist/js/Widgets/Chart-WlcClients.js \
+	dist/js/Widgets/Class-State.js \
+	dist/js/Widgets/Class-TextState.js \
+	dist/js/Widgets/Gauge-PerfData.js \
+	dist/js/Widgets/Gradient-PerfData.js \
+	dist/js/Widgets/RadialGradient-PerfData.js \
+	dist/js/Widgets/Stroke-PerfData.js \
+	dist/js/Widgets/Text-PerfData.js \
+	dist/js/Widgets/Text-PerfMap.js \
+	dist/js/Widgets/Transform-PerfData.js
 
 all: $(DISTS) dist/css/widgets-nagios.css
 
@@ -37,8 +37,18 @@ dist/js/%.js: js/%.js
 	    --stats \
 	    -- $+
 
+dist/js/Widgets/%.js: js/Widgets/%.js
+	uglifyjs \
+	    --output $@ \
+	    --source-map $(subst .js,.map,$@) \
+	    --compress \
+	    --mangle \
+	    --lint \
+	    --stats \
+	    -- $+
+
 dist/css/widgets-nagios.css: css/widgets-nagios.css
 	uglifycss $+ > $@
 
 clean:
-	rm -f dist/js/*.js dist/js/*.map dist/css/widgets-nagios.css
+	rm -f dist/js/*.js dist/js/*.map dist/js/Widgets/*.js dist/js/Widgets/*.map dist/css/widgets-nagios.css
