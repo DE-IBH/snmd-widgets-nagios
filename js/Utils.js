@@ -80,9 +80,6 @@ define(["jquery"], function ($) {
             },
             position: {
                 viewport: $(window),
-            },
-            style: {
-                classes: 'qtip-snmd qtip-shadow'
             }
         };  
     };
