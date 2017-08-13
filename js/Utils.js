@@ -63,14 +63,17 @@ define(["jquery"], function ($) {
             var s = $("<span></span>").addClass('snmd-qt-legend');
             t.push(s);
             $.each(legends, function(i, l) {
-                    s.append(
-                       $("<span></span>").text(l).addClass(
-                           that.opts.lcls.map(function (c) {
-                                return c + "-" + l;
-                               }).join(' ')
-                       )
-                   );
-                   });
+                var classes = 'snmd-qt-nocls';
+                if(Array.isArray(that.opts.lcls)) {
+                    classes = that.opts.lcls.map(function (c) {
+                        return c + "-" + l;
+                    }).join(' ');
+                }
+
+                s.append(
+                    $("<span></span>").text(l).addClass(classes)
+                );
+            });
         }
 
         return {
