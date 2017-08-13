@@ -73,7 +73,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             this.last[desc.topics[i]] = [0];
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig("UPS Load", this));
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "UPS Load", this.lines.map(function (l) {
+            return l.name;
+        })));
     };
     
     ChartUpsLoad.prototype.handleUpdate = function (topic, msg) {

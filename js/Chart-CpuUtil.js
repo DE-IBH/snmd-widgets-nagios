@@ -73,7 +73,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             this.last[desc.topics[i]] = [0, 0];
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig("CPU Utilization", this));
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "CPU Utilization", this.lines.map(function (l) {
+            return l.name;
+        })));
     };
     
     ChartCpuUtil.prototype.handleUpdate = function (topic, msg) {

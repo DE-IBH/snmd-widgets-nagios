@@ -91,7 +91,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig("FC Port Bandwidth", this));
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "FC Port Bandwidth", this.lines.map(function (l) {
+            return l.name;
+        })));
     };
     
     ChartFcBw.prototype.handleUpdate = function (topic, msg) {

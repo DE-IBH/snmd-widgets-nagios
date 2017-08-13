@@ -73,7 +73,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig("WLC Clients", this));
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "WLC Clients", this.lines.map(function (l) {
+            return l.name;
+        })));
     };
     
     ChartWlcClients.prototype.handleUpdate = function (topic, msg) {

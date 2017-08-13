@@ -56,7 +56,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
             }
         }
 
-        this.el = new SVGImplClass(root, svg, this.opts, Utils.qTipConfig("Service State", this));
+        this.el = new SVGImplClass(root, svg, this.opts, Utils.qTipConfig(this, "Service State"));
     };
 
     ClassState.prototype.handleUpdate = function (topic, msg) {

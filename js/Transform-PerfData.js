@@ -94,7 +94,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Transform", "snmd-widget
             }
         }
 
-        this.chart = new SVGImplTransform(root, svg, this.opts, Utils.qTipConfig("Performance Data", this));
+        this.chart = new SVGImplTransform(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data"));
     };
     
     TransformPerfData.prototype.handleUpdate = function (topic, msg) {

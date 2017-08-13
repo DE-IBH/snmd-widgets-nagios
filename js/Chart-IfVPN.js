@@ -122,7 +122,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig("VPN Tunnel", this));
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "VPN Tunnel", this.lines.map(function (l) {
+            return l.name;
+        })));
     };
     
     ChartIfVPN.prototype.handleUpdate = function (topic, msg) {

@@ -79,7 +79,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig("Disk Throughput", this));
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "Disk Throughput", this.lines.map(function (l) {
+            return l.name;
+        })));
     };
 
     ChartDiskTp.prototype.handleUpdate = function (topic, msg) {

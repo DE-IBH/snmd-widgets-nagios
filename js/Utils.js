@@ -55,12 +55,27 @@ define(["jquery"], function ($) {
         return instance;
     };
 
-    Utils.prototype.qTipConfig = function (title, that) {
+    Utils.prototype.qTipConfig = function (that, title, legends) {
         that.qtip_services = {};
+
+        var t = [$("<span></span>").text(title)];
+        if(Array.isArray(legends)) {
+            var s = $("<span></span>").addClass('snmd-qt-legend');
+            t.push(s);
+            $.each(legends, function(i, l) {
+                    s.append(
+                       $("<span></span>").text(l).addClass(
+                           that.opts.lcls.map(function (c) {
+                                return c + "-" + l;
+                               }).join(' ')
+                       )
+                   );
+                   });
+        }
 
         return {
             content: {
-                title: title,
+                title: t,
                 text: Utils.qTipContentCb.bind(that),
             },
             position: {

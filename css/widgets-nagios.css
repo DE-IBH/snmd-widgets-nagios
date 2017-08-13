@@ -23,16 +23,19 @@
 .snmd-lcl-NagIf-if_in_octets {
     fill: LawnGreen;
     stroke: LawnGreen;
+    background-color: LawnGreen;
 }
 .snmd-lcl-NagIf-drop {
     fill: LightCoral;
     stroke: LightCoral;
+    background-color: LightCoral;
 }
 .snmd-lcl-NagIf-out,
 .snmd-lcl-NagIf-outucast,
 .snmd-lcl-NagIf-if_out_octets,
 .snmd-lcl-NagIf-post {
     stroke: DodgerBlue;
+    background-color: DodgerBlue;
 }
 
 .snmd-tcl-NagIf-in,
@@ -65,10 +68,12 @@
 .snmd-lcl-NagIO-read {
     fill: Orchid;
     stroke: Orchid;
+    background-color: Orchid;
 }
 .snmd-lcl-NagFc-out,
 .snmd-lcl-NagIO-write {
     stroke: RoyalBlue;
+    background-color: RoyalBlue;
 }
 
 .snmd-tcl-NagFc-in,
@@ -117,6 +122,7 @@
 .snmd-lcl-NagWlcClients-connections {
     fill: DodgerBlue;
     stroke: DodgerBlue;
+    background-color: DodgerBlue;
 }
 .snmd-tcl-NagWlcClients-connections {
     text-anchor: begin;

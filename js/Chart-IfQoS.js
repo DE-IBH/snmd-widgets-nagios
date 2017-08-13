@@ -122,7 +122,9 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig("Interface QoS Class", this));
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "Interface QoS Class", this.lines.map(function (l) {
+            return l.name;
+        })));
     };
     
     ChartIfQoS.prototype.handleUpdate = function (topic, msg) {

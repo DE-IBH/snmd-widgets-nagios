@@ -83,7 +83,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Rad
         }
         this.opts.stops = Object.keys(this.last);
 
-        this.grad = new SVGImplGradient(root, svg, this.opts, Utils.qTipConfig("Performance Data", this));
+        this.grad = new SVGImplGradient(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data"));
 
         /* subscribe to topics */
         Object.keys(this.tmap).forEach(function (topic) {
