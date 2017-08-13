@@ -4,7 +4,7 @@
   "authors": [
     "Thomas Liske <liske@ibh.de>"
   ],
-  "description": "Scotty Network Monitoring Dashboard - Nagios widgets",
+  "description": "Simple Network Monitoring Dashboard - Nagios widgets",
   "main": "",
   "license": "GPL-2.0+",
   "private": true,

@@ -19,26 +19,48 @@
 
 
 .snmd-lcl-NagIf-in,
-.snmd-lcl-NagIf-inucast {
+.snmd-lcl-NagIf-inucast,
+.snmd-lcl-NagIf-if_in_octets {
     fill: LawnGreen;
     stroke: LawnGreen;
+    background-color: LawnGreen;
+}
+.snmd-lcl-NagIf-drop {
+    fill: LightCoral;
+    stroke: LightCoral;
+    background-color: LightCoral;
 }
 .snmd-lcl-NagIf-out,
-.snmd-lcl-NagIf-outucast {
+.snmd-lcl-NagIf-outucast,
+.snmd-lcl-NagIf-if_out_octets,
+.snmd-lcl-NagIf-post {
     stroke: DodgerBlue;
+    background-color: DodgerBlue;
 }
 
 .snmd-tcl-NagIf-in,
-.snmd-tcl-NagIf-inucast {
+.snmd-tcl-NagIf-inucast,
+.snmd-tcl-NagIf-if_in_octets {
     text-anchor: begin;
     fill: LimeGreen;
     transform: translate(3px, 13px);
 }
+.snmd-tcl-NagIf-drop {
+    text-anchor: end;
+    fill: LightCoral;
+    transform: translate(-3px, 13px);
+}
 .snmd-tcl-NagIf-out,
-.snmd-tcl-NagIf-outucast {
+.snmd-tcl-NagIf-outucast,
+.snmd-tcl-NagIf-if_out_octets {
     text-anchor: end;
     fill: DodgerBlue;
     transform: translate(-3px, 13px);
+}
+.snmd-tcl-NagIf-post {
+    text-anchor: begin;
+    fill: DodgerBlue;
+    transform: translate(3px, 13px);
 }
 
 
@@ -46,10 +68,12 @@
 .snmd-lcl-NagIO-read {
     fill: Orchid;
     stroke: Orchid;
+    background-color: Orchid;
 }
 .snmd-lcl-NagFc-out,
 .snmd-lcl-NagIO-write {
     stroke: RoyalBlue;
+    background-color: RoyalBlue;
 }
 
 .snmd-tcl-NagFc-in,
@@ -92,4 +116,33 @@
 }
 .snmd-bcl-opacity-stroke.snmd-bcl-Nagios_Class-TextState.snmd-scl-0 {
     stroke: none;
+}
+
+
+.snmd-lcl-NagWlcClients-connections {
+    fill: DodgerBlue;
+    stroke: DodgerBlue;
+    background-color: DodgerBlue;
+}
+.snmd-tcl-NagWlcClients-connections {
+    text-anchor: begin;
+    fill: LimeGreen;
+    transform: translate(3px, 13px);
+}
+
+
+.snmd-qt-NagHost {
+    font-weight: bolder;
+    margin: 0;
+}
+
+.snmd-qt-NagService {
+    font-weight: bold;
+    margin: 0 0 0 1em;
+}
+
+.snmd-qt-NagOutput {
+    font-weight: lighter;
+    margin: 0 0 0 2em;
+    padding: 0.4em;
 }
