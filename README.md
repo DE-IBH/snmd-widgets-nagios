@@ -1,6 +1,8 @@
 SNMD - nagios widgets
 =====================
 
+![Documentation Status](https://readthedocs.org/projects/snmd-widgets-nagios/badge/?version=latest)
+
 About
 -----
 
