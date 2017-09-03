@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "snmd-widgets-nag
 
     var TextPerfData = function (root, svg, desc) {
         this.opts = {
+            title: "Performance Data",
             desc: desc,
             cls: SVGWidget.srClassOpts(desc, "Text")
         };
@@ -89,7 +90,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "snmd-widgets-nag
             }
         }
 
-        this.chart = new SVGImplText(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", this.opts.keys));
+        this.chart = new SVGImplText(root, svg, this.opts, Utils.qTipConfig(this, this.opts.keys));
     };
     
     TextPerfData.prototype.handleUpdate = function (topic, msg) {

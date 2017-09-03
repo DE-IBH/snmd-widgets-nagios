@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Transform", "snmd-widget
 
     var TransformPerfData = function (root, svg, desc) {
         this.opts = {
+            title: "Performance Data",
             desc: desc,
             cls: SVGWidget.srClassOpts(desc, "Transform")
         };
@@ -94,7 +95,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Transform", "snmd-widget
             }
         }
 
-        this.chart = new SVGImplTransform(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", this.opts.keys));
+        this.chart = new SVGImplTransform(root, svg, this.opts, Utils.qTipConfig(this, this.opts.keys));
     };
     
     TransformPerfData.prototype.handleUpdate = function (topic, msg) {

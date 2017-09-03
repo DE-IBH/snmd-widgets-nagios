@@ -55,10 +55,10 @@ define(["snmd-core/js/Notify", "jquery"], function (Notify, $) {
         return instance;
     };
 
-    Utils.prototype.qTipConfig = function (that, title, legends) {
+    Utils.prototype.qTipConfig = function (that, legends) {
         that.qtip_services = {};
 
-        var t = [$("<span></span>").text(title)];
+        var t = [$("<span></span>").text(that.opts.title)];
         if (Array.isArray(legends)) {
             var s = $("<span></span>").addClass('snmd-qt-legend');
             t.push(s);
@@ -128,7 +128,7 @@ define(["snmd-core/js/Notify", "jquery"], function (Notify, $) {
             output: json.output
         };
 
-        Notify.notify("snmd-widgets-nagios", topic, json.state, "Interface Bandwidth", json.output);
+        Notify.notify("snmd-widgets-nagios", topic, json.state, that.opts.title, json.output);
     };
     
     return Utils.getInstance();

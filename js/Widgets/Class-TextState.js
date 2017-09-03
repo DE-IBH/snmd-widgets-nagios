@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
 
     var ClassTextState = function (root, svg, desc) {
         this.opts = {
+            title: "Service State",
             cls: SVGWidget.srClassOpts(desc, "Class")
         };
         
@@ -52,13 +53,13 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
         if (typeof desc.clrsty !== "undefined") {
             for (i = 0; i < desc.clrsty.length; i++) {
                 svg.style[desc.clrsty[i]] = '';
-                $(svg).children('tspan').each(function(i, c) {
+                $(svg).children('tspan').each(function (i, c) {
                     c.style[desc.clrsty[i]] = '';
                 });
             }
         }
 
-        this.el = new SVGImplClass(root, svg, this.opts, Utils.qTipConfig(this, "Service State"));
+        this.el = new SVGImplClass(root, svg, this.opts, Utils.qTipConfig(this));
     };
     
     ClassTextState.prototype.handleUpdate = function (topic, msg) {

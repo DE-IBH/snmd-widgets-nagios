@@ -35,11 +35,12 @@ License:
     define
 */
 
-define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "snmd-widgets-nagios/js/Utils","js-logger"], function (SVGWidget, SVGImplGauge, Utils, Logger) {
+define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "snmd-widgets-nagios/js/Utils", "js-logger"], function (SVGWidget, SVGImplGauge, Utils, Logger) {
     'use strict';
     
     var GaugePerfData = function (root, svg, desc) {
         this.opts = {
+            title: "Performance Data",
             axis: [
                 {
                     max: 50,
@@ -79,7 +80,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "snmd-widgets-na
 
         this.max = (typeof desc.max === "undefined" ? 100 : desc.max);
         
-        this.chart = new SVGImplGauge(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", this.opts.keys));
+        this.chart = new SVGImplGauge(root, svg, this.opts, Utils.qTipConfig(this, this.opts.keys));
     };
     
     GaugePerfData.prototype.handleUpdate = function (topic, msg) {

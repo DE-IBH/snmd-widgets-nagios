@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
 
     var ChartIfPr = function (root, svg, desc) {
         this.opts = {
+            title: "Interface Packet Rate",
             axis: [
                 {
                     max: 200 * 1488.096,
@@ -122,7 +123,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "Interface Packet Rate", this.lines.map(function (l) {
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, this.lines.map(function (l) {
             return l.name;
         })));
     };

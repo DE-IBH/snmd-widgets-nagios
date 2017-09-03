@@ -42,6 +42,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
         var i;
 
         this.opts = {
+            title: "UPS Load",
             axis: [
                 {
                     max: 50,
@@ -73,7 +74,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             this.last[desc.topics[i]] = [0];
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "UPS Load", this.lines.map(function (l) {
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, this.lines.map(function (l) {
             return l.name;
         })));
     };

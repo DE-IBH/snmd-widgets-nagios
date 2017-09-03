@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "snmd-widg
 
     var StrokePerfData = function (root, svg, desc) {
         this.opts = {
+            title: "Performance Data",
             desc: desc,
             cls: SVGWidget.srClassOpts(desc, "StrokeWidth")
         };
@@ -107,7 +108,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "snmd-widg
             }
         }
 
-        this.chart = new SVGImplStrokeWidth(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", this.opts.keys));
+        this.chart = new SVGImplStrokeWidth(root, svg, this.opts, Utils.qTipConfig(this, this.opts.keys));
     };
     
     StrokePerfData.prototype.handleUpdate = function (topic, msg) {
