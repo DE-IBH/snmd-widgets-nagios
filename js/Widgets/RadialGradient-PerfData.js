@@ -43,7 +43,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Rad
             cls: SVGWidget.srClassOpts(desc, "RadialGradient"),
             range: desc.range,
             hoffset: desc.hoffset,
-            hscale: desc.hscale,
+            hscale: desc.hscale
         };
 
         var i;

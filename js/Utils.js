@@ -59,12 +59,12 @@ define(["snmd-core/js/Notify", "jquery"], function (Notify, $) {
         that.qtip_services = {};
 
         var t = [$("<span></span>").text(title)];
-        if(Array.isArray(legends)) {
+        if (Array.isArray(legends)) {
             var s = $("<span></span>").addClass('snmd-qt-legend');
             t.push(s);
-            $.each(legends, function(i, l) {
+            $.each(legends, function (i, l) {
                 var classes = 'snmd-qt-nocls';
-                if(Array.isArray(that.opts.lcls)) {
+                if (Array.isArray(that.opts.lcls)) {
                     classes = that.opts.lcls.map(function (c) {
                         return c + "-" + l;
                     }).join(' ');
@@ -79,22 +79,22 @@ define(["snmd-core/js/Notify", "jquery"], function (Notify, $) {
         return {
             content: {
                 title: t,
-                text: Utils.qTipContentCb.bind(that),
+                text: Utils.qTipContentCb.bind(that)
             },
             position: {
-                viewport: $(window),
+                viewport: $(window)
             }
-        };  
+        };
     };
 
     Utils.qTipContentCb = function () {
         var els = [];
 
-        if(Object.keys(this.qtip_services).length === 0) {
+        if (Object.keys(this.qtip_services).length === 0) {
             return $("<i></i>").text('No data, yet...');
         }
         
-        $.each(this.qtip_services, function(hostname, services) {
+        $.each(this.qtip_services, function (hostname, services) {
             var h = $("<p></p>").addClass('snmd-qt-NagHost');
             h.text(hostname);
             els.push(h);
@@ -120,7 +120,7 @@ define(["snmd-core/js/Notify", "jquery"], function (Notify, $) {
     };
 
     Utils.prototype.qTipUpdate = function (topic, json, that) {
-        if(typeof that.qtip_services[json.hostname] === "undefined") {
+        if (typeof that.qtip_services[json.hostname] === "undefined") {
             that.qtip_services[json.hostname] = {};
         }
         that.qtip_services[json.hostname][json.service_description] = {
