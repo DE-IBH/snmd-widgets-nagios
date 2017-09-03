@@ -91,7 +91,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Gauge", "snmd-widgets-na
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         this.last[topic].val = 0;
         this.last[topic].state = 0;

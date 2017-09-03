@@ -101,7 +101,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Text", "snmd-widgets-nag
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         this.last[topic].val = 0;
         try {

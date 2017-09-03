@@ -100,7 +100,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Rad
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         /* set last value of current topic to zero */
         var i;

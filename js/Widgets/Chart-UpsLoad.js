@@ -91,7 +91,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         for (i = 0; i < this.lines.length; i += 1) {
             this.last[topic][i] = 0;

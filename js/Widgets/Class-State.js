@@ -70,7 +70,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         this.last[topic] = undefined;
         try {

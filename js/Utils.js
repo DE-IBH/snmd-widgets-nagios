@@ -36,7 +36,7 @@ License:
     window
 */
 
-define(["jquery"], function ($) {
+define(["snmd-core/js/Notify", "jquery"], function (Notify, $) {
     'use strict';
 
     var instance = null;
@@ -119,7 +119,7 @@ define(["jquery"], function ($) {
         return this.qtip_services.length > 0;
     };
 
-    Utils.prototype.qTipUpdate = function (json, that) {
+    Utils.prototype.qTipUpdate = function (topic, json, that) {
         if(typeof that.qtip_services[json.hostname] === "undefined") {
             that.qtip_services[json.hostname] = {};
         }
@@ -127,6 +127,8 @@ define(["jquery"], function ($) {
             state: json.state,
             output: json.output
         };
+
+        Notify.notify("snmd-widgets-nagios", topic, json.state, "Interface Bandwidth", json.output);
     };
     
     return Utils.getInstance();
