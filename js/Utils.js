@@ -128,7 +128,7 @@ define(["snmd-core/js/Notify", "jquery"], function (Notify, $) {
             output: json.output
         };
 
-        Notify.notify("snmd-widgets-nagios", topic, json.state, that.opts.title, json.output);
+        Notify.notify("snmd-widgets-nagios", topic, json.state, that.opts.title, json.hostname + "\n" + json.service_description + "\n" + json.output);
     };
     
     return Utils.getInstance();
