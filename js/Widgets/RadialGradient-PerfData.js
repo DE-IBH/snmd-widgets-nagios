@@ -40,10 +40,11 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Rad
 
     var RadialGradientPerfData = function (root, svg, desc) {
         this.opts = {
+            title: "Performance Data",
             cls: SVGWidget.srClassOpts(desc, "RadialGradient"),
             range: desc.range,
             hoffset: desc.hoffset,
-            hscale: desc.hscale,
+            hscale: desc.hscale
         };
 
         var i;
@@ -83,7 +84,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Rad
         }
         this.opts.stops = Object.keys(this.last);
 
-        this.grad = new SVGImplGradient(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", this.opts.keys));
+        this.grad = new SVGImplGradient(root, svg, this.opts, Utils.qTipConfig(this, this.opts.keys));
 
         /* subscribe to topics */
         Object.keys(this.tmap).forEach(function (topic) {
@@ -100,7 +101,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/MQTT", "snmd-core/js/SVGImpl/Rad
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         /* set last value of current topic to zero */
         var i;

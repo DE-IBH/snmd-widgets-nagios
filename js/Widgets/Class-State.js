@@ -7,7 +7,7 @@ Authors:
 
 Copyright Holder:
   2012 - 2013 (C) Thomas Liske [https://fiasko-nw.net/~thomas/]
-  2014 - 2016 (C) IBH IT-Service GmbH [https://www.ibh.de/]
+  2014 - 2017 (C) IBH IT-Service GmbH [https://www.ibh.de/]
 
 License:
   This program is free software; you can redistribute it and/or modify
@@ -42,6 +42,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
         var i;
 
         this.opts = {
+            title: "Service State",
             cls: SVGWidget.srClassOpts(desc, "Class")
         };
         
@@ -56,7 +57,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
             }
         }
 
-        this.el = new SVGImplClass(root, svg, this.opts, Utils.qTipConfig(this, "Service State"));
+        this.el = new SVGImplClass(root, svg, this.opts, Utils.qTipConfig(this));
     };
 
     ClassState.prototype.handleUpdate = function (topic, msg) {
@@ -70,7 +71,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         this.last[topic] = undefined;
         try {

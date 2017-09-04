@@ -7,7 +7,7 @@ Authors:
 
 Copyright Holder:
   2012 - 2013 (C) Thomas Liske [https://fiasko-nw.net/~thomas/]
-  2014 - 2016 (C) IBH IT-Service GmbH [https://www.ibh.de/]
+  2014 - 2017 (C) IBH IT-Service GmbH [https://www.ibh.de/]
 
 License:
   This program is free software; you can redistribute it and/or modify
@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
 
     var ChartDiskTp = function (root, svg, desc) {
         this.opts = {
+            title: "Disk Throughput",
             axis: [
                 {
                     max: 100000000,
@@ -79,7 +80,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "Disk Throughput", this.lines.map(function (l) {
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, this.lines.map(function (l) {
             return l.name;
         })));
     };
@@ -93,7 +94,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         var i;
         for (i = 0; i < this.lines.length; i++) {

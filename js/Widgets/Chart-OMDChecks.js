@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
 
     var ChartOMDChecks = function (root, svg, desc) {
         this.opts = {
+            title: "OMD Check Rate",
             axis: [
                 {
                     max: 200,
@@ -85,7 +86,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "OMD Check Rate", this.lines.map(function (l) {
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, this.lines.map(function (l) {
             return l.name;
         })));
     };
@@ -99,7 +100,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         var i;
         for (i = 0; i < this.lines.length; i++) {

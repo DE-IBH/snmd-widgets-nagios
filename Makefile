@@ -30,7 +30,7 @@ all: $(DISTS) dist/css/widgets-nagios.css
 dist/js/%.js: js/%.js
 	uglifyjs \
 	    --output $@ \
-	    --source-map $(subst .js,.map,$@) \
+	    --source-map \
 	    --compress \
 	    --mangle \
 	    --lint \
@@ -40,7 +40,7 @@ dist/js/%.js: js/%.js
 dist/js/Widgets/%.js: js/Widgets/%.js
 	uglifyjs \
 	    --output $@ \
-	    --source-map $(subst .js,.map,$@) \
+	    --source-map \
 	    --compress \
 	    --mangle \
 	    --lint \

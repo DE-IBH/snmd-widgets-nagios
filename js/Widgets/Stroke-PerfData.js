@@ -7,7 +7,7 @@ Authors:
 
 Copyright Holder:
   2012 - 2013 (C) Thomas Liske [https://fiasko-nw.net/~thomas/]
-  2014 - 2016 (C) IBH IT-Service GmbH [https://www.ibh.de/]
+  2014 - 2017 (C) IBH IT-Service GmbH [https://www.ibh.de/]
 
 License:
   This program is free software; you can redistribute it and/or modify
@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "snmd-widg
 
     var StrokePerfData = function (root, svg, desc) {
         this.opts = {
+            title: "Performance Data",
             desc: desc,
             cls: SVGWidget.srClassOpts(desc, "StrokeWidth")
         };
@@ -107,7 +108,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "snmd-widg
             }
         }
 
-        this.chart = new SVGImplStrokeWidth(root, svg, this.opts, Utils.qTipConfig(this, "Performance Data", this.opts.keys));
+        this.chart = new SVGImplStrokeWidth(root, svg, this.opts, Utils.qTipConfig(this, this.opts.keys));
     };
     
     StrokePerfData.prototype.handleUpdate = function (topic, msg) {
@@ -119,7 +120,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/StrokeWidth", "snmd-widg
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         this.last[topic].val = 0;
         try {

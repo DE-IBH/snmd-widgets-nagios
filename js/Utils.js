@@ -36,7 +36,7 @@ License:
     window
 */
 
-define(["jquery"], function ($) {
+define(["snmd-core/js/Notify", "jquery"], function (Notify, $) {
     'use strict';
 
     var instance = null;
@@ -55,16 +55,16 @@ define(["jquery"], function ($) {
         return instance;
     };
 
-    Utils.prototype.qTipConfig = function (that, title, legends) {
+    Utils.prototype.qTipConfig = function (that, legends) {
         that.qtip_services = {};
 
-        var t = [$("<span></span>").text(title)];
-        if(Array.isArray(legends)) {
+        var t = [$("<span></span>").text(that.opts.title)];
+        if (Array.isArray(legends)) {
             var s = $("<span></span>").addClass('snmd-qt-legend');
             t.push(s);
-            $.each(legends, function(i, l) {
+            $.each(legends, function (i, l) {
                 var classes = 'snmd-qt-nocls';
-                if(Array.isArray(that.opts.lcls)) {
+                if (Array.isArray(that.opts.lcls)) {
                     classes = that.opts.lcls.map(function (c) {
                         return c + "-" + l;
                     }).join(' ');
@@ -79,22 +79,22 @@ define(["jquery"], function ($) {
         return {
             content: {
                 title: t,
-                text: Utils.qTipContentCb.bind(that),
+                text: Utils.qTipContentCb.bind(that)
             },
             position: {
-                viewport: $(window),
+                viewport: $(window)
             }
-        };  
+        };
     };
 
     Utils.qTipContentCb = function () {
         var els = [];
 
-        if(Object.keys(this.qtip_services).length === 0) {
+        if (Object.keys(this.qtip_services).length === 0) {
             return $("<i></i>").text('No data, yet...');
         }
         
-        $.each(this.qtip_services, function(hostname, services) {
+        $.each(this.qtip_services, function (hostname, services) {
             var h = $("<p></p>").addClass('snmd-qt-NagHost');
             h.text(hostname);
             els.push(h);
@@ -119,14 +119,16 @@ define(["jquery"], function ($) {
         return this.qtip_services.length > 0;
     };
 
-    Utils.prototype.qTipUpdate = function (json, that) {
-        if(typeof that.qtip_services[json.hostname] === "undefined") {
+    Utils.prototype.qTipUpdate = function (topic, json, that) {
+        if (typeof that.qtip_services[json.hostname] === "undefined") {
             that.qtip_services[json.hostname] = {};
         }
         that.qtip_services[json.hostname][json.service_description] = {
             state: json.state,
             output: json.output
         };
+
+        Notify.notify("snmd-widgets-nagios", topic, json.state, that.opts.title, json.hostname + "\n" + json.service_description + "\n" + json.output);
     };
     
     return Utils.getInstance();

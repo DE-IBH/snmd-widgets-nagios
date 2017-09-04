@@ -7,7 +7,7 @@ Authors:
 
 Copyright Holder:
   2012 - 2013 (C) Thomas Liske [https://fiasko-nw.net/~thomas/]
-  2014 - 2016 (C) IBH IT-Service GmbH [https://www.ibh.de/]
+  2014 - 2017 (C) IBH IT-Service GmbH [https://www.ibh.de/]
 
 License:
   This program is free software; you can redistribute it and/or modify
@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
 
     var ClassTextState = function (root, svg, desc) {
         this.opts = {
+            title: "Service State",
             cls: SVGWidget.srClassOpts(desc, "Class")
         };
         
@@ -52,13 +53,13 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
         if (typeof desc.clrsty !== "undefined") {
             for (i = 0; i < desc.clrsty.length; i++) {
                 svg.style[desc.clrsty[i]] = '';
-                $(svg).children('tspan').each(function(i, c) {
+                $(svg).children('tspan').each(function (i, c) {
                     c.style[desc.clrsty[i]] = '';
                 });
             }
         }
 
-        this.el = new SVGImplClass(root, svg, this.opts, Utils.qTipConfig(this, "Service State"));
+        this.el = new SVGImplClass(root, svg, this.opts, Utils.qTipConfig(this));
     };
     
     ClassTextState.prototype.handleUpdate = function (topic, msg) {
@@ -70,7 +71,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Class", "snmd-widgets-na
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         this.last[topic] = undefined;
         try {

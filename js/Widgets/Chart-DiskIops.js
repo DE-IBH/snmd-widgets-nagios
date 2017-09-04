@@ -40,6 +40,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
 
     var ChartDiskIops = function (root, svg, desc) {
         this.opts = {
+            title: "Disk IOPS",
             axis: [
                 {
                     max: 100,
@@ -79,7 +80,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             }
         }
 
-        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, "Disk IOPS", this.lines.map(function (l) {
+        this.chart = new SVGImplChart(root, svg, this.opts, this.lines, Utils.qTipConfig(this, this.lines.map(function (l) {
             return l.name;
         })));
     };
@@ -93,7 +94,7 @@ define(["snmd-core/js/SVGWidget", "snmd-core/js/SVGImpl/Chart", "snmd-widgets-na
             return;
         }
 
-        Utils.qTipUpdate(json, this);
+        Utils.qTipUpdate(topic, json, this);
 
         var i;
         for (i = 0; i < this.lines.length; i++) {
